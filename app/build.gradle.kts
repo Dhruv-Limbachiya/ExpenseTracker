@@ -1,4 +1,6 @@
 plugins {
+    kotlin("kapt")
+    alias(libs.plugins.daggerHiltAndroid)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
@@ -66,4 +68,22 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // dagger hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+
+    // room
+    implementation(libs.room.android)
+    // To use Kotlin annotation processing tool (kapt)
+    kapt(libs.room.compiler)
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation(libs.room.ktx)
+    // optional - Test helpers
+    testImplementation(libs.room.testing)
+
+    // coroutine
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.lifecycle.viewmodel)
+    implementation(libs.lifecycle.runtime)
 }
