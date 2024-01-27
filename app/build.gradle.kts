@@ -75,6 +75,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    testImplementation (libs.truth)
+    androidTestImplementation (libs.truth)
+
     // dagger hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)

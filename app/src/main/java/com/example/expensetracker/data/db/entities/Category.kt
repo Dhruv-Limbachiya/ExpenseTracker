@@ -1,6 +1,6 @@
 package com.example.expensetracker.data.db.entities
 
-enum class Category(categoryId: Int) {
+enum class Category(val categoryId: Int) {
     HOUSING_CATEGORY(1),
     TRANSPORTATION_CATEGORY(2),
     FOOD_CATEGORY(3),
