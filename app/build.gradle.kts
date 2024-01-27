@@ -16,7 +16,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.example.expensetracker.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -49,6 +49,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 dependencies {
@@ -61,7 +64,10 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.core.ktx)
     testImplementation(libs.junit)
+    testImplementation (libs.core.testing)
+    androidTestImplementation (libs.core.testing)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -72,6 +78,11 @@ dependencies {
     // dagger hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+    testImplementation(libs.hilt.android.testing)
+    kaptTest(libs.hilt.android.compiler)
+    androidTestImplementation(libs.hilt.android.testing) // For instrumented tests.
+    kaptAndroidTest(libs.hilt.android.compiler)
+
 
     // room
     implementation(libs.room.android)

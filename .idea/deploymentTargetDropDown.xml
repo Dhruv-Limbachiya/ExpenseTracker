@@ -5,6 +5,9 @@
       <entry key="app">
         <State />
       </entry>
+      <entry key="testInsertExpense_whenInserted_shouldReturnTrue()">
+        <State />
+      </entry>
     </value>
   </component>
 </project>
