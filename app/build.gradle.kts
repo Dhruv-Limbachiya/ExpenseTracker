@@ -100,4 +100,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.lifecycle.runtime)
+
+    // test flow
+    testImplementation(libs.turbine)
+    androidTestImplementation(libs.turbine)
 }
