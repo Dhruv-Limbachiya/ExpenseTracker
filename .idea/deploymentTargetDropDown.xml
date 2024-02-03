@@ -2,19 +2,16 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="DashboardViewModelTest">
+        <State />
+      </entry>
       <entry key="ExpenseTrackerDaoTest">
         <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
-      <entry key="testCurrentMonthExpenses_shouldReturnCorrectAmount()">
-        <State />
-      </entry>
       <entry key="testCurrentMonthExpenses_whenThereIsNoExpenseRecorded_shouldReturnZero()">
-        <State />
-      </entry>
-      <entry key="testJanuaryMonthExpenses_shouldReturnCorrectAmount()">
         <State />
       </entry>
       <entry key="testMarchMonthExpenses_shouldReturnCorrectAmount()">
