@@ -10,7 +10,7 @@ import com.example.expensetracker.domain.usecases.AddOrUpdateExpense
 import com.example.expensetracker.domain.usecases.GetCurrentMonthTotalSpent
 import com.example.expensetracker.domain.usecases.GetExpenses
 import com.example.expensetracker.domain.usecases.RemoveExpense
-import com.example.expensetracker.domain.usecases.UserCase
+import com.example.expensetracker.domain.usecases.UseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,9 +40,9 @@ object TestAppModule {
     @Singleton
     @Provides
     @Named("test_use_case")
-    fun provideTestUseCase(@Named("fake_expense_tracker_repository") repository: ExpenseRepository) : UserCase {
+    fun provideTestUseCase(@Named("fake_expense_tracker_repository") repository: ExpenseRepository) : UseCase {
         Log.i("TestModule", "provideTestUseCase: REPO : $repository")
-        return UserCase(
+        return UseCase(
             getExpense = GetExpenses(repository),
             addOrUpdateExpense = AddOrUpdateExpense(repository),
             removeExpense = RemoveExpense(repository),

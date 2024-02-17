@@ -1,6 +1,5 @@
 package com.example.expensetracker.presentation.dashboard
 
-import android.util.Log
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.example.expensetracker.data.db.dao.ExpenseDao
@@ -8,12 +7,11 @@ import com.example.expensetracker.data.db.entities.Category
 import com.example.expensetracker.data.db.entities.Expense
 import com.example.expensetracker.data.db.room.ExpenseTrackerDB
 import com.example.expensetracker.data.repositories.ExpenseRepository
-import com.example.expensetracker.domain.usecases.UserCase
+import com.example.expensetracker.domain.usecases.UseCase
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -36,7 +34,7 @@ class DashboardViewModelTest {
 
     @Inject
     @Named("test_use_case")
-    lateinit var userCase: UserCase
+    lateinit var useCase: UseCase
 
     @Inject
     @Named("expense_tracker_test_db")
@@ -52,7 +50,7 @@ class DashboardViewModelTest {
     fun setUp() {
         hiltRule.inject()
         expenseDao = expenseTrackerDB.getExpenseDao()
-        viewModel = DashboardViewModel(userCase)
+        viewModel = DashboardViewModel(useCase)
     }
 
     @Test

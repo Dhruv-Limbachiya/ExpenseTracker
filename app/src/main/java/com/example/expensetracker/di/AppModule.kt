@@ -4,13 +4,12 @@ import android.content.Context
 import androidx.room.Room
 import com.example.expensetracker.data.db.room.ExpenseTrackerDB
 import com.example.expensetracker.data.repositories.ExpenseRepository
-import com.example.expensetracker.domain.repositories.FakeExpenseRepository
 import com.example.expensetracker.domain.repositories.IExpenseRepository
 import com.example.expensetracker.domain.usecases.AddOrUpdateExpense
 import com.example.expensetracker.domain.usecases.GetCurrentMonthTotalSpent
 import com.example.expensetracker.domain.usecases.GetExpenses
 import com.example.expensetracker.domain.usecases.RemoveExpense
-import com.example.expensetracker.domain.usecases.UserCase
+import com.example.expensetracker.domain.usecases.UseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,8 +39,8 @@ object AppModule {
     @Singleton
     @Provides
     @Named("main_use_case")
-    fun provideUseCase(@Named("expense_tracker_repository") repository: ExpenseRepository) : UserCase {
-        return UserCase(
+    fun provideUseCase(@Named("expense_tracker_repository") repository: ExpenseRepository) : UseCase {
+        return UseCase(
             getExpense = GetExpenses(repository),
             addOrUpdateExpense = AddOrUpdateExpense(repository),
             removeExpense = RemoveExpense(repository),

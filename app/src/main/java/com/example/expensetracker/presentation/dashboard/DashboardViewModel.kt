@@ -5,21 +5,15 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.expensetracker.data.db.entities.Expense
-import com.example.expensetracker.domain.usecases.UserCase
+import com.example.expensetracker.domain.usecases.UseCase
 import com.example.expensetracker.presentation.dashboard.DashboardState.Companion.INVALID_DASHBOARD
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import javax.inject.Named
 
 //@HiltViewModel
 class DashboardViewModel constructor(
 //    @Named("main_use_case") private val useCase: UserCase
-     private val useCase: UserCase
+     private val useCase: UseCase
 ) : ViewModel() {
 
     init {

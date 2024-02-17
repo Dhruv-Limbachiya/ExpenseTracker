@@ -1,6 +1,6 @@
 package com.example.expensetracker.domain.usecases
 
-data class UserCase(
+data class UseCase(
     val getExpense: GetExpenses,
     val addOrUpdateExpense: AddOrUpdateExpense,
     val removeExpense: RemoveExpense,
