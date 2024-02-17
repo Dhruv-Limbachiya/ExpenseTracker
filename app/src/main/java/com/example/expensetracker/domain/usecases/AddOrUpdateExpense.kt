@@ -7,7 +7,7 @@ class AddOrUpdateExpense(
     private var expenseRepository: ExpenseRepository
 ) {
 
-    suspend fun invoke(expense: Expense) {
-        expenseRepository.insertExpense(expense)
+    suspend operator fun invoke(expense: Expense): Boolean {
+        return expenseRepository.insertExpense(expense)
     }
 }

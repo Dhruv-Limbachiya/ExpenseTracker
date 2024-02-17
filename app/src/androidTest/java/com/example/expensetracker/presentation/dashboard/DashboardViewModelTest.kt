@@ -14,6 +14,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -52,6 +53,12 @@ class DashboardViewModelTest {
         expenseDao = expenseTrackerDB.getExpenseDao()
         viewModel = DashboardViewModel(useCase)
     }
+
+    @After
+    fun tearDown() {
+        expenseTrackerDB.close()
+    }
+
 
     @Test
     fun fetchExpenses_whenGetExpenseUseCaseInvoked_shouldReturnSuccess() {
