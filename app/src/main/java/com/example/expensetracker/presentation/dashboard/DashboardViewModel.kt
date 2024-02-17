@@ -38,6 +38,14 @@ class DashboardViewModel constructor(
         }
     }
 
+    fun getCurrentMonthTotalSpent() = viewModelScope.launch {
+        useCase.getCurrentMonthTotalSpent().collectLatest {
+            _dashboardState.value = _dashboardState.value.copy(
+                totalExpenses = it ?: 0.0
+            )
+        }
+    }
+
     companion object {
         private const val TAG = "DashboardViewModel"
     }

@@ -95,4 +95,92 @@ class DashboardViewModelTest {
         }
     }
 
+    @Test
+    fun getTotalAmount_whenGetCurrentMonthTotalInvoked_returnCorrectAmount(){
+        runBlocking {
+            // arrange
+            val pizza = Expense(
+                title = "Pizza",
+                description = "7 cheesy pizza",
+                amount = 235.60,
+                categoryId = Category.FOOD_CATEGORY.categoryId,
+                date = "2024-02-01",
+            )
+
+            val burger = Expense(
+                title = "Burger",
+                description = "Double Patty Veg Burger",
+                amount = 199.0,
+                categoryId = Category.FOOD_CATEGORY.categoryId,
+                date = "2024-02-10",
+            )
+
+            val dhosa = Expense(
+                title = "dhosa",
+                description = "Mysore Masala Dhosa",
+                amount = 275.0,
+                categoryId = Category.FOOD_CATEGORY.categoryId,
+                date = "2024-01-01",
+            )
+
+            fakeRepository.insertExpense(pizza)
+            fakeRepository.insertExpense(burger)
+            fakeRepository.insertExpense(dhosa)
+
+            // act
+            viewModel.getCurrentMonthTotalSpent()
+
+            // assert
+            fakeRepository.getCurrentMonthExpenses().test {
+                awaitItem()
+                val currentMonthTotalSpent = viewModel.dashboardState.value.totalExpenses
+                assertThat(currentMonthTotalSpent).isEqualTo(434.6)
+            }
+        }
+    }
+
+    @Test
+    fun getTotalSpent_whenThereIsNoSpentExists_returnZero(){
+        runBlocking {
+            // arrange
+            val pizza = Expense(
+                title = "Pizza",
+                description = "7 cheesy pizza",
+                amount = 235.60,
+                categoryId = Category.FOOD_CATEGORY.categoryId,
+                date = "2024-03-01",
+            )
+
+            val burger = Expense(
+                title = "Burger",
+                description = "Double Patty Veg Burger",
+                amount = 199.0,
+                categoryId = Category.FOOD_CATEGORY.categoryId,
+                date = "2024-03-10",
+            )
+
+            val dhosa = Expense(
+                title = "dhosa",
+                description = "Mysore Masala Dhosa",
+                amount = 275.0,
+                categoryId = Category.FOOD_CATEGORY.categoryId,
+                date = "2024-03-01",
+            )
+
+            fakeRepository.insertExpense(pizza)
+            fakeRepository.insertExpense(burger)
+            fakeRepository.insertExpense(dhosa)
+
+            // act
+            viewModel.getCurrentMonthTotalSpent()
+
+            // assert
+            fakeRepository.getCurrentMonthExpenses().test {
+                awaitItem()
+                val currentMonthTotalSpent = viewModel.dashboardState.value.totalExpenses
+                assertThat(currentMonthTotalSpent).isEqualTo(0)
+            }
+        }
+    }
+
 }
