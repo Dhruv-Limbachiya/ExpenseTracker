@@ -1,5 +1,6 @@
 [versions]
 agp = "8.4.0-alpha04"
+androidxHiltNavigationCompose = "1.0.0-alpha03"
 coreTesting = "2.2.0"
 hiltAndroidCompiler = "2.50"
 kotlin = "1.9.0"
@@ -17,6 +18,7 @@ coroutineLifecycleVersion = "2.4.0"
 coreKtxVersion = "1.5.0"
 truth = "1.3.0"
 turbineVersion = "1.0.0"
+hiltNavigationCompose = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -37,6 +39,7 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "daggerHiltVersion" }
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "daggerHiltVersion" }
+hilt-navigation-compose = {module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose"}
 room-android = {module = "androidx.room:room-runtime", version.ref = "roomVersion"}
 room-compiler = {module = "androidx.room:room-compiler", version.ref = "roomVersion"}
 room-ktx = {module = "androidx.room:room-ktx", version.ref = "roomVersion"}
