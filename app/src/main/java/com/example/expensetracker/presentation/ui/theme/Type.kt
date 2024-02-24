@@ -14,6 +14,12 @@ val poppinsMedium = Font(resId = R.font.poppins_medium)
 val poppinsSemiBold = Font(resId = R.font.poppins_semibold)
 val poppinsBold = Font(resId = R.font.poppins_bold)
 
+val openSansRegular = Font(resId = R.font.open_sans)
+val openSansSemiBold= Font(resId = R.font.open_sans_semibold)
+val openSansBold = Font(resId = R.font.open_sans_bold)
+val openSansExtraBold = Font(resId = R.font.open_sans_extrabold)
+val openSansCondensedBold = Font(resId = R.font.open_sans_condensed_bold)
+
 // font family
 val fontFamily = FontFamily(
     poppinsRegular,
@@ -21,10 +27,17 @@ val fontFamily = FontFamily(
     poppinsSemiBold,
     poppinsBold)
 
+val openSansFontFamily = FontFamily(
+    openSansRegular,
+    openSansSemiBold,
+    openSansBold,
+    openSansExtraBold,
+    openSansCondensedBold)
+
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyLarge = TextStyle(
-        fontFamily = fontFamily,
+        fontFamily = openSansFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,
