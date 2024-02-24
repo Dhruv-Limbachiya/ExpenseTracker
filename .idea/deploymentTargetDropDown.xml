@@ -2,19 +2,22 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="DashboardViewModelTest">
-        <State />
-      </entry>
-      <entry key="ExpenseTrackerDaoTest">
+      <entry key="MainActivity">
         <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
-      <entry key="testCurrentMonthExpenses_whenThereIsNoExpenseRecorded_shouldReturnZero()">
+      <entry key="getTotalAmount_whenGetCurrentMonthTotalInvoked_returnCorrectAmount()">
         <State />
       </entry>
-      <entry key="testMarchMonthExpenses_shouldReturnCorrectAmount()">
+      <entry key="getTotalSpent_whenThereIsNoSpentExists_returnZero()">
+        <State />
+      </entry>
+      <entry key="insertExpenseDetails_expectedExpenseListIncreasedByOne()">
+        <State />
+      </entry>
+      <entry key="updateExpenseData_shouldReturnCorrectUpdateData()">
         <State />
       </entry>
     </value>
