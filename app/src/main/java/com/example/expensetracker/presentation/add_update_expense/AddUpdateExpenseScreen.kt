@@ -1,41 +1,63 @@
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+
 package com.example.expensetracker.presentation.add_update_expense
 
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.rememberScrollableState
-import androidx.compose.foundation.gestures.scrollable
+import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.KeyboardArrowLeft
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.expensetracker.R
 import com.example.expensetracker.presentation.common.ExpenseTrackerAppBar
+import com.example.expensetracker.presentation.ui.theme.lightGray
+import com.example.expensetracker.presentation.ui.theme.openSansBoldFontFamily
+import kotlin.math.exp
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,10 +104,20 @@ fun AddUpdateExpenseForm(
                 amount = changeAmt
             }
         )
-        ExpenseCategory(modifier = modifier, currentExpenseType = currentExpenseType)
-        ExpenseDescriptionField(modifier = modifier, description = description, onDescriptionChange = {
-            description = it
-        })
+
+        ExpenseCategory(
+            modifier = modifier,
+            currentExpenseType = currentExpenseType,
+            onExpenseTypeChange = {
+                currentExpenseType = it
+            })
+
+        ExpenseDescriptionField(
+            modifier = modifier,
+            description = description,
+            onDescriptionChange = {
+                description = it
+            })
     }
 }
 
@@ -95,42 +127,133 @@ fun AmountTextField(
     amount: String,
     onAmountChange: (String) -> Unit
 ) {
+
+    // initialize focus reference to be able to request focus programmatically
+    val focusRequester by remember { mutableStateOf(FocusRequester()) }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+
     TextField(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .height(90.dp)
+            .padding(horizontal = 16.dp)
+            .focusRequester(focusRequester = focusRequester),
+        textStyle = TextStyle(fontSize = 40.sp, fontFamily = openSansBoldFontFamily),
         value = if (amount == "") {
             ""
         } else {
             amount
         },
         label = {
-            Text(text = "Amount")
+            Text(text = "Amount", fontFamily = openSansBoldFontFamily)
+        },
+        placeholder = {
+            Text(
+                text = "0",
+                fontFamily = openSansBoldFontFamily,
+                fontSize = 40.sp,
+                color = Color.Gray
+            )
         },
         onValueChange = { onAmountChange(it) },
         prefix = {
-            Text(text = "₹", fontSize = 24.sp)
+            Text(
+                text = "₹",
+                fontSize = 30.sp,
+                fontFamily = openSansBoldFontFamily,
+                modifier = Modifier.padding(top = 12.dp, end = 8.dp)
+            )
         },
         suffix = {
-            Text(text = "INR")
+            Text(
+                text = "INR",
+                fontFamily = openSansBoldFontFamily,
+                color = Color.Gray,
+                modifier = Modifier.padding(top = 24.dp)
+            )
         },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Decimal,
             imeAction = ImeAction.Done
-        )
+        ),
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent
+        ),
     )
 }
+val cities = listOf("New York", "London", "Paris", "Tokyo")
 
 @Composable
-fun ExpenseCategory(modifier: Modifier = Modifier, currentExpenseType: String) {
+fun ExpenseCategory(
+    modifier: Modifier = Modifier,
+    currentExpenseType: String,
+    onExpenseTypeChange: (String) -> Unit
+) {
     val context = LocalContext.current
-    Column(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+
+    var expanded by remember {
+        mutableStateOf(false)
+    }
+
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.Top,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 32.dp)
     ) {
-        Text(text = context.getString(R.string.expense_made_for), style = MaterialTheme.typography.bodyLarge)
-        Text(text = currentExpenseType)
+        Column {
+            Text(
+                text = context.getString(R.string.expense_made_for),
+                fontFamily = openSansBoldFontFamily,
+                fontSize = 14.sp,
+                color = Color.Gray
+            )
+
+            Text(
+                text = currentExpenseType,
+                fontFamily = openSansBoldFontFamily,
+                modifier = Modifier.padding(top = 6.dp)
+            )
+
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                cities.forEach { city ->
+                    DropdownMenuItem(
+                        text = { Text(city) },
+                        onClick = {
+                            onExpenseTypeChange(city)
+                            expanded = false // Close menu after selection
+                        }
+                    )
+                }
+            }
+        }
+
+        Box(
+            modifier = Modifier
+                .size(46.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(lightGray)
+                .clickable {
+                    expanded = expanded.not()
+                },
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.KeyboardArrowDown,
+                contentDescription = "Drop Down",
+            )
+        }
     }
 }
+
 
 @Composable
 fun ExpenseDescriptionField(
@@ -160,5 +283,4 @@ fun ExpenseDescriptionField(
 @Composable
 private fun AddUpdateExpenseFormPreview() {
     AddUpdateExpenseForm()
-    ExpenseCategory(currentExpenseType = "Tea & Snacks")
 }

@@ -34,6 +34,8 @@ val openSansFontFamily = FontFamily(
     openSansExtraBold,
     openSansCondensedBold)
 
+val openSansBoldFontFamily = FontFamily(Font(R.font.open_sans_bold))
+
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyLarge = TextStyle(
