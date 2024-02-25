@@ -2,7 +2,6 @@
 
 package com.example.expensetracker.presentation.add_update_expense
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -11,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,7 +24,6 @@ import androidx.compose.material.icons.rounded.KeyboardArrowLeft
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -48,7 +47,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -57,7 +55,6 @@ import com.example.expensetracker.R
 import com.example.expensetracker.presentation.common.ExpenseTrackerAppBar
 import com.example.expensetracker.presentation.ui.theme.lightGray
 import com.example.expensetracker.presentation.ui.theme.openSansBoldFontFamily
-import kotlin.math.exp
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -185,6 +182,7 @@ fun AmountTextField(
         ),
     )
 }
+
 val cities = listOf("New York", "London", "Paris", "Tokyo")
 
 @Composable
@@ -255,6 +253,7 @@ fun ExpenseCategory(
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExpenseDescriptionField(
     modifier: Modifier = Modifier,
@@ -262,21 +261,53 @@ fun ExpenseDescriptionField(
     onDescriptionChange: (String) -> Unit
 ) {
 
-    TextField(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        value = description,
-        label = {
-            Text(text = "Description")
-        },
-        onValueChange = { onDescriptionChange(it) },
-        maxLines = 5,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Done
-        ),
-    )
+    val context = LocalContext.current
+
+    Column {
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            text = context.getString(R.string.expense_made_for),
+            fontFamily = openSansBoldFontFamily,
+            fontSize = 14.sp,
+            color = Color.Gray
+        )
+
+        Spacer(modifier = Modifier.height(6.dp))
+
+        BasicTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            value = description,
+            textStyle = TextStyle(fontFamily = openSansBoldFontFamily,),
+            onValueChange = { onDescriptionChange(it) },
+            maxLines = 5,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Done
+            ),
+            decorationBox = {
+                TextFieldDefaults.DecorationBox(
+                    value = description,
+                    placeholder = { Text(text = "Enter your description", fontFamily = openSansBoldFontFamily, fontSize = 14.sp,)},
+                    innerTextField = it,
+                    enabled = true,
+                    singleLine = false,
+                    contentPadding = PaddingValues(0.dp),
+                    visualTransformation = VisualTransformation.None,
+                    interactionSource = MutableInteractionSource(),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedContainerColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent
+                    )
+                )
+            },
+        )
+    }
 }
 
 @Preview(showSystemUi = true, device = Devices.PIXEL_4)
