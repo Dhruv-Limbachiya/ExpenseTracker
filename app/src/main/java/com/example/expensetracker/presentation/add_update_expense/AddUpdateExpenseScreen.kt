@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
@@ -90,7 +91,7 @@ fun AddUpdateExpenseForm(
     modifier: Modifier = Modifier
 ) {
     var amount by remember { mutableStateOf("") }
-    var currentExpenseType by remember { mutableStateOf("Tea & Snacks") }
+    var currentExpenseType by remember { mutableStateOf(expenseCategory[0]) }
     var description by remember { mutableStateOf("") }
 
     Column {
@@ -145,7 +146,7 @@ fun AmountTextField(
             amount
         },
         label = {
-            Text(text = "Amount", fontFamily = openSansBoldFontFamily)
+            Text(text = "Amount", fontFamily = openSansBoldFontFamily, fontSize = 14.sp, color = Color.Gray)
         },
         placeholder = {
             Text(
@@ -178,12 +179,15 @@ fun AmountTextField(
         ),
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.Transparent,
-            unfocusedContainerColor = Color.Transparent
+            unfocusedContainerColor = Color.Transparent,
+            focusedIndicatorColor = Color.Black,
+            focusedLabelColor = Color.Gray,
+            cursorColor = Color.Black
         ),
     )
 }
 
-val cities = listOf("New York", "London", "Paris", "Tokyo")
+val expenseCategory = listOf("Household", "Transportation", "Food & Beverages", "Clothing","Personal Care","Entertainment","Gifts","Charity","Miscellaneous")
 
 @Composable
 fun ExpenseCategory(
@@ -219,10 +223,11 @@ fun ExpenseCategory(
             )
 
             DropdownMenu(
+                modifier = Modifier.fillMaxWidth(0.7f),
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
             ) {
-                cities.forEach { city ->
+                expenseCategory.forEach { city ->
                     DropdownMenuItem(
                         text = { Text(city) },
                         onClick = {
