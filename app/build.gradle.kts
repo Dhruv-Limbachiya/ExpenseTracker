@@ -106,4 +106,9 @@ dependencies {
     // test flow
     testImplementation(libs.turbine)
     androidTestImplementation(libs.turbine)
+
+    // number keypad
+    implementation (libs.number.keyboard)
+
+    implementation(libs.androidx.material.icons.extended.android)
 }

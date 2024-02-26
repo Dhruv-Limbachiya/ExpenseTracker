@@ -2,6 +2,7 @@
 
 package com.example.expensetracker.presentation.add_update_expense
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -11,22 +12,34 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.Backspace
+import androidx.compose.material.icons.rounded.AddTask
+import androidx.compose.material.icons.rounded.Backspace
+import androidx.compose.material.icons.rounded.CheckCircleOutline
+import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.KeyboardArrowLeft
+import androidx.compose.material.icons.rounded.KeyboardArrowUp
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -43,6 +56,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -50,12 +64,19 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.davidmiguel.numberkeyboard.NumberKeyboard
+import com.davidmiguel.numberkeyboard.NumberKeyboardAuxButton
+import com.davidmiguel.numberkeyboard.NumberKeyboardButton
+import com.davidmiguel.numberkeyboard.data.NumberKeyboardData
+import com.davidmiguel.numberkeyboard.listener.NumberKeyboardListener
 import com.example.expensetracker.R
 import com.example.expensetracker.presentation.common.ExpenseTrackerAppBar
 import com.example.expensetracker.presentation.ui.theme.lightGray
 import com.example.expensetracker.presentation.ui.theme.openSansBoldFontFamily
+import com.example.expensetracker.presentation.ui.theme.purplePrimary
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -79,7 +100,13 @@ fun AddUpdateExpenseScreen(
                     }
                 },
             )
-        }
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { /*TODO*/ }, contentColor = Color.White, containerColor = purplePrimary) {
+                Icon(imageVector = Icons.Rounded.AddTask, contentDescription = "Add Expense")
+            }
+        },
+        floatingActionButtonPosition = FabPosition.End
 
     ) { innerPadding ->
         AddUpdateExpenseForm(modifier = modifier.padding(innerPadding))
@@ -116,7 +143,76 @@ fun AddUpdateExpenseForm(
             onDescriptionChange = {
                 description = it
             })
+
+//        val buttonModifier = Modifier
+//            .aspectRatio(2F)
+//            .size(40.dp)
+//            .weight(1F)
+//
+//        Box(
+//            modifier = modifier.weight(1f),
+//            contentAlignment = Alignment.BottomCenter
+//        ) {
+//            NumPad(
+//                modifier = modifier,
+//                onValueChanged = {
+//                    amount = it
+//                },
+//                buttonModifier = buttonModifier
+//            )
+//        }
+
     }
+}
+
+@Composable
+fun NumPad(
+    modifier: Modifier = Modifier,
+    onValueChanged: (String) -> Unit,
+    buttonModifier: Modifier = Modifier
+) {
+    val context = LocalContext.current
+
+    val buttonTextStyle = TextStyle(fontFamily = openSansBoldFontFamily)
+
+    NumberKeyboard(
+        maxAllowedAmount = 99999999.0,
+        maxAllowedDecimals = 2,
+        decimalSeparator = '.',
+        roundUpToMax = false,
+        button = { number, clickedListener ->
+            NumberKeyboardButton(
+                modifier = buttonModifier.size(40.dp),
+                textStyle = buttonTextStyle,
+                number = number,
+                shape = CircleShape,
+                listener = clickedListener
+            )
+        },
+        leftAuxButton = { _ ->
+            NumberKeyboardAuxButton(
+                modifier = buttonModifier,
+                textStyle = buttonTextStyle,
+                shape = CircleShape,
+                imageVector = Icons.AutoMirrored.Rounded.Backspace,
+                clicked = { Toast.makeText(context, "Triggered", Toast.LENGTH_SHORT).show() }
+            )
+        },
+        rightAuxButton = { clickedListener ->
+            NumberKeyboardAuxButton(
+                modifier = buttonModifier.size(30.dp),
+                textStyle = buttonTextStyle,
+                imageVector = Icons.Rounded.CheckCircleOutline,
+                shape = CircleShape,
+                clicked = { clickedListener.onRightAuxButtonClicked() }
+            )
+        },
+        listener = object : NumberKeyboardListener {
+            override fun onUpdated(data: NumberKeyboardData) {
+                onValueChanged(data.int.toString())
+            }
+        }
+    )
 }
 
 @Composable
@@ -250,7 +346,7 @@ fun ExpenseCategory(
             contentAlignment = Alignment.Center,
         ) {
             Icon(
-                imageVector = Icons.Rounded.KeyboardArrowDown,
+                imageVector = if(expanded) Icons.Rounded.KeyboardArrowUp else Icons.Rounded.KeyboardArrowDown,
                 contentDescription = "Drop Down",
             )
         }
@@ -267,6 +363,8 @@ fun ExpenseDescriptionField(
 ) {
 
     val context = LocalContext.current
+
+    val interactionSource = remember { MutableInteractionSource() }
 
     Column {
         Text(
@@ -302,7 +400,7 @@ fun ExpenseDescriptionField(
                     singleLine = false,
                     contentPadding = PaddingValues(0.dp),
                     visualTransformation = VisualTransformation.None,
-                    interactionSource = MutableInteractionSource(),
+                    interactionSource = interactionSource,
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.Transparent,
                         unfocusedContainerColor = Color.Transparent,
@@ -318,5 +416,5 @@ fun ExpenseDescriptionField(
 @Preview(showSystemUi = true, device = Devices.PIXEL_4)
 @Composable
 private fun AddUpdateExpenseFormPreview() {
-    AddUpdateExpenseForm()
+    AddUpdateExpenseScreen()
 }
