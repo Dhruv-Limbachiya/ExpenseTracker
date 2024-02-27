@@ -50,7 +50,7 @@ class AddUpdateExpenseViewModelTest {
                 id = 1,
                 title = "Pizza",
                 description = "7 cheesy pizza",
-                amount = 235.60,
+                amount = 235.60.toString(),
                 categoryId = Category.FOOD_CATEGORY.categoryId,
                 date = "2024-03-01",
             )
@@ -59,7 +59,7 @@ class AddUpdateExpenseViewModelTest {
                 id = 2,
                 title = "Pizza",
                 description = "7 cheesy pizza",
-                amount = 235.60,
+                amount = 235.60.toString(),
                 categoryId = Category.FOOD_CATEGORY.categoryId,
                 date = "2024-03-01",
             )
@@ -88,7 +88,7 @@ class AddUpdateExpenseViewModelTest {
                 id = 1,
                 title = "Pizza",
                 description = "7 cheesy pizza",
-                amount = 235.60,
+                amount = 235.60.toString(),
                 categoryId = Category.FOOD_CATEGORY.categoryId,
                 date = "2024-03-01",
             )
@@ -97,7 +97,7 @@ class AddUpdateExpenseViewModelTest {
                 id = 2,
                 title = "Burger",
                 description = "7 cheesy pizza",
-                amount = 235.60,
+                amount = 235.60.toString(),
                 categoryId = Category.FOOD_CATEGORY.categoryId,
                 date = "2024-03-01",
             )
@@ -110,7 +110,7 @@ class AddUpdateExpenseViewModelTest {
                 id = 1,
                 title = "Puf Pizza",
                 description = "7 cheesy pizza",
-                amount = 235.60,
+                amount = 235.60.toString(),
                 categoryId = Category.FOOD_CATEGORY.categoryId,
                 date = "2024-03-01",
             )

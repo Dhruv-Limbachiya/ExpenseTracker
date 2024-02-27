@@ -32,8 +32,8 @@ object AppModule {
     @Singleton
     @Provides
     @Named("expense_tracker_repository")
-    fun provideExpenseTrackerRepository() : ExpenseRepository {
-        return IExpenseRepository()
+    fun provideExpenseTrackerRepository(@Named("expense_tracker_db") expenseTrackerDB: ExpenseTrackerDB) : ExpenseRepository {
+        return IExpenseRepository(expenseTrackerDB)
     }
 
     @Singleton

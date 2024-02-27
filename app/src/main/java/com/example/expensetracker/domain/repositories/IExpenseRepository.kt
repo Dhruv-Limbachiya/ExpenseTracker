@@ -4,16 +4,11 @@ import com.example.expensetracker.data.db.entities.Expense
 import com.example.expensetracker.data.db.room.ExpenseTrackerDB
 import com.example.expensetracker.data.repositories.ExpenseRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Named
 
 
-class IExpenseRepository() : ExpenseRepository {
-
-    @Inject
-    @Named("expense_tracker_db")
-    lateinit var expenseTrackerDB: ExpenseTrackerDB
+class IExpenseRepository(private val expenseTrackerDB: ExpenseTrackerDB) : ExpenseRepository {
 
     override suspend fun insertExpense(expense: Expense): Boolean {
         val rowId = expenseTrackerDB.getExpenseDao().insertExpense(expense)
