@@ -70,12 +70,14 @@ import com.davidmiguel.numberkeyboard.data.NumberKeyboardData
 import com.davidmiguel.numberkeyboard.listener.NumberKeyboardListener
 import com.example.expensetracker.R
 import com.example.expensetracker.data.db.entities.Category
+import com.example.expensetracker.presentation.add_update_expense.data.ExpenseData
 import com.example.expensetracker.presentation.common.ExpenseTrackerAppBar
 import com.example.expensetracker.presentation.ui.theme.lightGray
 import com.example.expensetracker.presentation.ui.theme.openSansBoldFontFamily
 import com.example.expensetracker.presentation.ui.theme.purplePrimary
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -133,11 +135,28 @@ fun saveExpense(
     onSaved: (Boolean) -> Unit = {}
 ) {
     val expenseData = viewModel.addExpenseState.value.expenseData
+
+//    val modifiedExpense = ExpenseData(
+//        id =  1,
+//        title = "",
+//        description = "Coco Cola",
+//        amount = "80.99",
+//        categoryId = 2,
+//        date = "2024-02-28"
+//    )
     coroutineScope.launch(Dispatchers.IO) {
         val isSaved = viewModel.addExpense(expense = expenseData).await()
         withContext(Dispatchers.Main) {
             onSaved(isSaved)
         }
+
+        /// code to test update expense test case
+//        delay(5000)
+//        viewModel.addExpenseState.value.isUpdate = true
+//        val isUpdated = viewModel.addExpense(expense = modifiedExpense).await()
+//        withContext(Dispatchers.Main) {
+//            onSaved(isUpdated)
+//        }
     }
 }
 
