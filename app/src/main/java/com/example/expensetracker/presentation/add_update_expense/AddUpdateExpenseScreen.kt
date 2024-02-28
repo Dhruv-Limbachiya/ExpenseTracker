@@ -3,6 +3,7 @@
 package com.example.expensetracker.presentation.add_update_expense
 
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -87,12 +88,17 @@ private const val TAG = "AddUpdateExpenseScreen"
 @Composable
 fun AddUpdateExpenseScreen(
     modifier: Modifier = Modifier,
-    viewModel: AddUpdateExpenseViewModel = hiltViewModel()
+    viewModel: AddUpdateExpenseViewModel = hiltViewModel(),
+    onBack: () -> Unit
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
     val snackBarHostState = remember { SnackbarHostState() }
+
+    BackHandler {
+        onBack()
+    }
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackBarHostState) },
@@ -100,7 +106,7 @@ fun AddUpdateExpenseScreen(
             ExpenseTrackerAppBar(
                 title = context.getString(R.string.add_amount_heading),
                 navigationIcon = {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = onBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowLeft,
                             contentDescription = "Back",
@@ -481,6 +487,8 @@ fun NumPad(
 @Preview(showSystemUi = true, device = Devices.PIXEL_4)
 @Composable
 private fun AddUpdateExpenseFormPreview() {
-    AddUpdateExpenseScreen()
+    AddUpdateExpenseScreen() {
+
+    }
 }
 
