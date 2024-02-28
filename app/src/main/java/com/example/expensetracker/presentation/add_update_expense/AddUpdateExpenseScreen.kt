@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -117,14 +118,20 @@ fun AddUpdateExpenseScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
+            FloatingActionButton(
+                modifier = Modifier
+                    .defaultMinSize(
+                        minWidth = 76.dp,
+                        minHeight = 76.dp,
+                    ),
+                onClick = {
                 saveExpense(viewModel,coroutineScope) { isSaved ->
                     coroutineScope.launch {
                         val message = if(isSaved) "Expense Saved!" else "Failed to save your expense"
                         snackBarHostState.showSnackbar(message)
                     }
                 }
-            }, contentColor = Color.White, containerColor = purplePrimary) {
+            }) {
                 Icon(imageVector = Icons.Rounded.AddTask, contentDescription = "Add Expense")
             }
         },
@@ -236,7 +243,7 @@ fun AmountTextField(
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
 
     LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
+//        focusRequester.requestFocus()
     }
 
     TextField(
