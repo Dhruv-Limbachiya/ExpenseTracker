@@ -3,12 +3,16 @@ package com.example.expensetracker.presentation.dashboard
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Dashboard
@@ -33,7 +37,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.expensetracker.R
 import com.example.expensetracker.common.formatDoubleWithCommas
+import com.example.expensetracker.common.toExpenseData
 import com.example.expensetracker.presentation.common.ExpenseTrackerAppBar
+import com.example.expensetracker.presentation.expense_list.ExpenseItem
 import com.example.expensetracker.presentation.ui.theme.openSansBoldFontFamily
 
 @Composable
@@ -44,6 +50,7 @@ fun DashboardScreen(
     val context = LocalContext.current
 
     val totalSpent = viewModel.dashboardState.value.totalExpenses
+    val expenses = viewModel.dashboardState.value.expenses
 
     Scaffold(
         topBar = {
@@ -69,6 +76,17 @@ fun DashboardScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TotalExpense(modifier = modifier,totalSpent)
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            LazyColumn(
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(expenses) {
+                    ExpenseItem(expenseData = it.toExpenseData())
+                }
+            }
         }
     }
 }

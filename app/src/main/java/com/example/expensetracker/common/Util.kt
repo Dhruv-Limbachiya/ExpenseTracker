@@ -1,6 +1,8 @@
 package com.example.expensetracker.common
 
 import android.os.Build
+import com.example.expensetracker.data.db.entities.Expense
+import com.example.expensetracker.presentation.add_update_expense.data.ExpenseData
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -19,7 +21,7 @@ fun Long.toDate(): String {
 }
 
 
-fun getCalendarDate() : String {
+fun getCalendarDate(): String {
     val calendar = Calendar.getInstance()
     val year = calendar.get(Calendar.YEAR)
     val month = calendar.get(Calendar.MONTH) + 1  // Months are 0-indexed
@@ -31,4 +33,15 @@ fun getCalendarDate() : String {
 fun Double.formatDoubleWithCommas(): String {
     val numberFormat = NumberFormat.getNumberInstance(Locale.getDefault())
     return numberFormat.format(this)
+}
+
+fun Expense.toExpenseData(): ExpenseData {
+    return ExpenseData(
+        id = id,
+        title = title,
+        description = description,
+        amount = amount.toString(),
+        categoryId = categoryId,
+        date = date
+    )
 }

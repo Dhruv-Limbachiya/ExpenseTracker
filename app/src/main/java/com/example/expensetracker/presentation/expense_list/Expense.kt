@@ -2,6 +2,7 @@ package com.example.expensetracker.presentation.expense_list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,13 +37,13 @@ import kotlin.math.exp
 @Composable
 fun ExpenseItem(modifier: Modifier = Modifier, expenseData: ExpenseData) {
     Card(
-        modifier = modifier
-            .padding(16.dp)
-            .fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = mediumGray),
         shape = RoundedCornerShape(20.dp)
+
     ) {
         Row(
+            modifier = modifier.clickable {  },
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
