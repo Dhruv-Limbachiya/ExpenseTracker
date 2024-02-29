@@ -1,7 +1,10 @@
 package com.example.expensetracker.presentation.dashboard
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -25,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
@@ -38,8 +42,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.expensetracker.R
 import com.example.expensetracker.common.formatDoubleWithCommas
 import com.example.expensetracker.common.toExpenseData
+import com.example.expensetracker.data.db.entities.Expense
 import com.example.expensetracker.presentation.common.ExpenseTrackerAppBar
 import com.example.expensetracker.presentation.expense_list.ExpenseItem
+import com.example.expensetracker.presentation.ui.theme.lightGray
+import com.example.expensetracker.presentation.ui.theme.mediumGray
 import com.example.expensetracker.presentation.ui.theme.openSansBoldFontFamily
 
 @Composable
@@ -73,20 +80,12 @@ fun DashboardScreen(
                 .fillMaxWidth()
                 .padding(innerPaddingValues),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TotalExpense(modifier = modifier,totalSpent)
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            LazyColumn(
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(expenses) {
-                    ExpenseItem(expenseData = it.toExpenseData())
-                }
-            }
+            Expenses(modifier = modifier, expenses = expenses)
         }
     }
 }
@@ -131,6 +130,39 @@ fun TotalExpense(modifier: Modifier = Modifier, totalSpent: Double) {
                 color = Color.Gray,
                 modifier = Modifier.padding(top = 24.dp, end = 36.dp)
             )
+        }
+    }
+}
+
+@Composable
+fun Expenses(modifier: Modifier=Modifier, expenses: List<Expense>) {
+
+    Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 18.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+        Text(
+            text = "All Expenses",
+            fontFamily = openSansBoldFontFamily,
+        )
+        Box(
+            modifier = Modifier
+                .shadow(shape = RoundedCornerShape(20.dp), elevation = 1.dp)
+                .background(lightGray)
+        ) {
+            Text(
+                modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp).clickable {  },
+                text = "View all",
+                fontFamily = openSansBoldFontFamily,
+                color = Color.Gray,
+                fontSize = 12.sp
+            )
+        }
+    }
+
+    LazyColumn(
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(expenses+expenses+expenses+expenses) {
+            ExpenseItem(expenseData = it.toExpenseData())
         }
     }
 }
