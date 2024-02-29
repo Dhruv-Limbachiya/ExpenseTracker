@@ -129,6 +129,7 @@ fun AddUpdateExpenseScreen(
                     coroutineScope.launch {
                         val message = if(isSaved) "Expense Saved!" else "Failed to save your expense"
                         snackBarHostState.showSnackbar(message)
+                        onBack()
                     }
                 }
             }) {
