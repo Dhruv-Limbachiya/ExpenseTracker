@@ -11,3 +11,4 @@ enum class Category(val categoryId: Int,val categoryName: String) {
     CHARITY_CATEGORY(8,"Charity"),
     MISCELLANEOUS_CATEGORY(9,"Miscellaneous"),
 }
+
