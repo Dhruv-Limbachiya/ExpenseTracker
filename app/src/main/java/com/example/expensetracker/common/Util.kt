@@ -1,9 +1,11 @@
 package com.example.expensetracker.common
 
 import android.os.Build
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Calendar
+import java.util.Locale
 
 fun Long.toDate(): String {
     val formattedDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -24,4 +26,9 @@ fun getCalendarDate() : String {
     val day = calendar.get(Calendar.DAY_OF_MONTH)
 
     return String.format("%04d-%02d-%02d", year, month, day)
+}
+
+fun Double.formatDoubleWithCommas(): String {
+    val numberFormat = NumberFormat.getNumberInstance(Locale.getDefault())
+    return numberFormat.format(this)
 }
