@@ -46,6 +46,7 @@ import com.example.expensetracker.data.db.entities.Expense
 import com.example.expensetracker.presentation.common.ExpenseTrackerAppBar
 import com.example.expensetracker.presentation.expense_list.ExpenseItem
 import com.example.expensetracker.presentation.expense_list.ExpenseList
+import com.example.expensetracker.presentation.expense_list.ExpenseListScreen
 import com.example.expensetracker.presentation.ui.theme.lightGray
 import com.example.expensetracker.presentation.ui.theme.mediumGray
 import com.example.expensetracker.presentation.ui.theme.openSansBoldFontFamily
@@ -153,7 +154,8 @@ fun Expenses(modifier: Modifier=Modifier, expenses: List<Expense>) {
             Text(
                 modifier = Modifier
                     .padding(horizontal = 10.dp, vertical = 4.dp)
-                    .clickable { },
+                    .clickable {
+                    },
                 text = "View all",
                 fontFamily = openSansBoldFontFamily,
                 color = Color.Gray,

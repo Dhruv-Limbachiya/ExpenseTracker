@@ -54,6 +54,7 @@ fun ExpenseList(
     }
 
     LazyColumn(
+        modifier = modifier,
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {

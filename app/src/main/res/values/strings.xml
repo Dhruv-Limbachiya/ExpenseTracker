@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ExpenseTracker</string>
     <string name="add_amount_heading">Add Amount</string>
+    <string name="expenses">Expenses</string>
     <string name="dashboard_heading">Dashboard</string>
     <string name="expense_made_for">Expense made for</string>
 </resources>
