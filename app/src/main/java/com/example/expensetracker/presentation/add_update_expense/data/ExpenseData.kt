@@ -11,6 +11,7 @@ import androidx.compose.material.icons.outlined.Person4
 import androidx.compose.material.icons.outlined.Store
 import androidx.compose.material.icons.outlined.TheaterComedy
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.example.expensetracker.common.getYesterdayDate
 import com.example.expensetracker.common.toDate
 import com.example.expensetracker.data.db.entities.Category
 import com.example.expensetracker.data.db.entities.Expense
@@ -33,7 +34,8 @@ data class ExpenseData(
                 description = description,
                 amount = if(amount.isEmpty()) 0.0 else amount.toDouble(),
                 categoryId = categoryId,
-                date = if(isUpdate) date else System.currentTimeMillis().toDate()
+//                date = if(isUpdate) date else System.currentTimeMillis().toDate()
+                date = if(isUpdate) date else getYesterdayDate()
             )
         }
 

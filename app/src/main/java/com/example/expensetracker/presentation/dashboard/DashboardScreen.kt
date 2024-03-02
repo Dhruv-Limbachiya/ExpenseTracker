@@ -45,6 +45,7 @@ import com.example.expensetracker.common.toExpenseData
 import com.example.expensetracker.data.db.entities.Expense
 import com.example.expensetracker.presentation.common.ExpenseTrackerAppBar
 import com.example.expensetracker.presentation.expense_list.ExpenseItem
+import com.example.expensetracker.presentation.expense_list.ExpenseList
 import com.example.expensetracker.presentation.ui.theme.lightGray
 import com.example.expensetracker.presentation.ui.theme.mediumGray
 import com.example.expensetracker.presentation.ui.theme.openSansBoldFontFamily
@@ -137,7 +138,9 @@ fun TotalExpense(modifier: Modifier = Modifier, totalSpent: Double) {
 @Composable
 fun Expenses(modifier: Modifier=Modifier, expenses: List<Expense>) {
 
-    Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 18.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 18.dp), horizontalArrangement = Arrangement.SpaceBetween) {
         Text(
             text = "All Expenses",
             fontFamily = openSansBoldFontFamily,
@@ -148,7 +151,9 @@ fun Expenses(modifier: Modifier=Modifier, expenses: List<Expense>) {
                 .background(lightGray)
         ) {
             Text(
-                modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp).clickable {  },
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 4.dp)
+                    .clickable { },
                 text = "View all",
                 fontFamily = openSansBoldFontFamily,
                 color = Color.Gray,
@@ -157,14 +162,10 @@ fun Expenses(modifier: Modifier=Modifier, expenses: List<Expense>) {
         }
     }
 
-    LazyColumn(
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(expenses) {
-            ExpenseItem(expenseData = it.toExpenseData())
-        }
-    }
+    ExpenseList(
+        expenses = expenses,
+        showTillYesterday = true
+    )
 }
 
 @Preview(showSystemUi = true)
