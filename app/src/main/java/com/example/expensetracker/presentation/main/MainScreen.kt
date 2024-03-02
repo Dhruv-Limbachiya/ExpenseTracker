@@ -1,11 +1,17 @@
 package com.example.expensetracker.presentation.main
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.expensetracker.presentation.add_update_expense.AddUpdateExpenseScreen
@@ -110,6 +117,19 @@ fun FabAnimatedContainer(modifier: Modifier = Modifier) {
             .drawBehind {
                 drawRect(animatedColor)
             },
+        transitionSpec = {
+            (
+                    fadeIn(animationSpec = tween(500, delayMillis = 90)) +
+                            scaleIn(initialScale = 0.8f, animationSpec = tween(500, delayMillis = 90,), transformOrigin = TransformOrigin(0.9f,0.9f))
+                    )
+                .togetherWith(fadeOut(animationSpec = tween(200)))
+                .using(SizeTransform(clip = false, sizeAnimationSpec = { _, _ ->
+                    tween(
+                        durationMillis = 500,
+                        easing = FastOutSlowInEasing
+                    )
+                }))
+        }
     ) { state ->
         when (state) {
             ContainerState.FAB -> {

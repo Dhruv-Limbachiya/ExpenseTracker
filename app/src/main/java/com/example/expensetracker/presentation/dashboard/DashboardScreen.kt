@@ -161,7 +161,7 @@ fun Expenses(modifier: Modifier=Modifier, expenses: List<Expense>) {
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(expenses+expenses+expenses+expenses) {
+        items(expenses) {
             ExpenseItem(expenseData = it.toExpenseData())
         }
     }

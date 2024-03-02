@@ -31,6 +31,7 @@ class AddUpdateExpenseViewModel @Inject constructor (
         val isExpenseInserted = useCase.addOrUpdateExpense(expense.toExpenseEntity(
             _addExpenseState.value.isUpdate
         ))
+        _addExpenseState.value = INVALID_ADD_UPDATE_EXPENSE_STATE
         return@async isExpenseInserted
     }
 

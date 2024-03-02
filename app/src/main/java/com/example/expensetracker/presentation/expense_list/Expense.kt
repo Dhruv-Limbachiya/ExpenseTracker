@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.example.expensetracker.common.toDate
 import com.example.expensetracker.presentation.add_update_expense.data.ExpenseData
 import com.example.expensetracker.presentation.add_update_expense.data.ExpenseData.Companion.getCategory
+import com.example.expensetracker.presentation.add_update_expense.data.ExpenseData.Companion.getIcon
 import com.example.expensetracker.presentation.ui.theme.mediumGray
 import com.example.expensetracker.presentation.ui.theme.openSansBoldFontFamily
 import com.example.expensetracker.presentation.ui.theme.purplePrimary
@@ -54,7 +55,7 @@ fun ExpenseItem(modifier: Modifier = Modifier, expenseData: ExpenseData) {
                     .padding(12.dp)
             ) {
                 Image(
-                    imageVector = Icons.Outlined.Mail,
+                    imageVector = expenseData.getIcon(),
                     colorFilter = ColorFilter.tint(color = Color.White),
                     contentDescription = "Icon"
                 )
