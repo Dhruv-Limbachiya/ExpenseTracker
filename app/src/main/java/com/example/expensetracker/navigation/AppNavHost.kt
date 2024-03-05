@@ -2,6 +2,9 @@ package com.example.expensetracker.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,7 +24,7 @@ fun AppNavHost(
        startDestination = Destination.DashboardScreen.route
    ) {
        composable(route = Destination.DashboardScreen.route) {
-           DashboardScreen(modifier)
+           DashboardScreen(modifier.semantics { testTag = "DashboardScreen" })
        }
 
        composable(route = Destination.AddUpdateExpenseScreen.route) {

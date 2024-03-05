@@ -1,6 +1,7 @@
 package com.example.expensetracker.common
 
 import android.os.Build
+import androidx.navigation.NavController
 import com.example.expensetracker.data.db.entities.Expense
 import com.example.expensetracker.presentation.add_update_expense.data.ExpenseData
 import java.text.NumberFormat
@@ -82,3 +83,5 @@ fun getYesterdayDate(): String {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     return dateFormat.format(calendar.time)
 }
+
+
