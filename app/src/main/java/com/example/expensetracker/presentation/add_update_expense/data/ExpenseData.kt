@@ -34,8 +34,8 @@ data class ExpenseData(
                 description = description,
                 amount = if(amount.isEmpty()) 0.0 else amount.toDouble(),
                 categoryId = categoryId,
-//                date = if(isUpdate) date else System.currentTimeMillis().toDate()
-                date = if(isUpdate) date else getYesterdayDate()
+                date = if(isUpdate) date else System.currentTimeMillis().toDate()
+//                date = if(isUpdate) date else getYesterdayDate()
             )
         }
 

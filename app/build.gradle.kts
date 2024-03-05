@@ -111,4 +111,8 @@ dependencies {
     implementation (libs.number.keyboard)
 
     implementation(libs.androidx.material.icons.extended.android)
+
+    // navigation
+    implementation(libs.androidx.navigation.compose)
+    androidTestImplementation (libs.androidx.navigation.testing)
 }

@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ExpenseListScreen(
     modifier: Modifier = Modifier,
-    expenses: List<Expense>
+    expenses: List<Expense> = emptyList()
 ) {
 
     val context = LocalContext.current

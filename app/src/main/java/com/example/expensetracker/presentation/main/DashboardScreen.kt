@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
@@ -32,29 +31,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.expensetracker.presentation.add_update_expense.AddUpdateExpenseScreen
-import com.example.expensetracker.presentation.dashboard.DashboardScreen
+import com.example.expensetracker.presentation.dashboard.Dashboard
 
 @Composable
-fun MainScreen(modifier: Modifier = Modifier) {
+fun DashboardScreen(
+    modifier: Modifier = Modifier,
+) {
     Box(
         modifier = modifier
             .fillMaxSize(),
     ) {
-        DashboardScreen(modifier = modifier)
-        FabAnimatedContainer(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-        )
+        Dashboard(modifier = modifier)
+        FabAnimatedContainer(modifier = Modifier.align(Alignment.BottomEnd))
     }
 }
 
 @Preview(showSystemUi = true)
 @Composable
 private fun MainScreenPreview() {
-    MainScreen()
+    DashboardScreen()
 }
 
 @Composable

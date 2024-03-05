@@ -8,16 +8,7 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="getTotalAmount_whenGetCurrentMonthTotalInvoked_returnCorrectAmount()">
-        <State />
-      </entry>
-      <entry key="getTotalSpent_whenThereIsNoSpentExists_returnZero()">
-        <State />
-      </entry>
-      <entry key="insertExpenseDetails_expectedExpenseListIncreasedByOne()">
-        <State />
-      </entry>
-      <entry key="updateExpenseData_shouldReturnCorrectUpdateData()">
+      <entry key="navHost_verifyStartDestination()">
         <State />
       </entry>
     </value>
