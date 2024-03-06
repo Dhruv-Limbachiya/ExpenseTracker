@@ -2,10 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="MainActivity">
+      <entry key="NavigationTest">
         <State />
       </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="navHost_clickOnViewAll_navigatesToExpenseListScreen()">
+        <State />
+      </entry>
+      <entry key="navHost_onExpenseItemCLick_navigateToAddUpdateExpenseScreen()">
+        <State />
+      </entry>
+      <entry key="navHost_onExpenseItemClick_navigateToAddUpdateExpenseScreen()">
         <State />
       </entry>
       <entry key="navHost_verifyStartDestination()">

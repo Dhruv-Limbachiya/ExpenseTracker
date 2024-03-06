@@ -15,29 +15,37 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.expensetracker.R
 import com.example.expensetracker.data.db.entities.Expense
 import com.example.expensetracker.presentation.add_update_expense.AddUpdateExpenseForm
 import com.example.expensetracker.presentation.add_update_expense.saveExpense
 import com.example.expensetracker.presentation.common.ExpenseTrackerAppBar
+import com.example.expensetracker.presentation.dashboard.DashboardViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun ExpenseListScreen(
     modifier: Modifier = Modifier,
-    expenses: List<Expense> = emptyList()
+    viewModel: DashboardViewModel = hiltViewModel(),
+    navigateToAddUpdateExpenseScreen: (Int) -> Unit
 ) {
 
     val context = LocalContext.current
+    val expenses = viewModel.dashboardState.value.expenses
 
     Scaffold(
+        modifier = Modifier.semantics { contentDescription = "ExpenseListScreen" },
         snackbarHost = { },
         topBar = {
             ExpenseTrackerAppBar(
                 title = context.getString(R.string.expenses),
                 navigationIcon = {
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = {}, modifier = Modifier.testTag("ExpenseBack")) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowLeft,
                             contentDescription = "Back",
@@ -48,6 +56,6 @@ fun ExpenseListScreen(
             )
         }
     ) { innerPadding ->
-        ExpenseList(modifier = modifier.padding(innerPadding), expenses = expenses)
+        ExpenseList(modifier = Modifier.padding(innerPadding), expenses = expenses, onExpenseItemClick = navigateToAddUpdateExpenseScreen)
     }
 }

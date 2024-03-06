@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Mail
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -22,11 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.expensetracker.common.toDate
 import com.example.expensetracker.presentation.add_update_expense.data.ExpenseData
 import com.example.expensetracker.presentation.add_update_expense.data.ExpenseData.Companion.getCategory
 import com.example.expensetracker.presentation.add_update_expense.data.ExpenseData.Companion.getIcon
@@ -36,15 +33,17 @@ import com.example.expensetracker.presentation.ui.theme.purplePrimary
 import kotlin.math.exp
 
 @Composable
-fun ExpenseItem(modifier: Modifier = Modifier, expenseData: ExpenseData) {
+fun ExpenseItem(
+    modifier: Modifier = Modifier, expenseData: ExpenseData,
+    onExpenseItemClick: (Int) -> Unit) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().testTag(expenseData.id.toString()),
         colors = CardDefaults.cardColors(containerColor = mediumGray),
         shape = RoundedCornerShape(20.dp)
 
     ) {
         Row(
-            modifier = modifier.clickable {  },
+            modifier = modifier.clickable { onExpenseItemClick(expenseData.id) },
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
@@ -86,12 +85,15 @@ fun ExpenseTitleDescription(modifier: Modifier = Modifier,category:String,descri
 @Preview(showSystemUi = true)
 @Composable
 private fun ExpenseItemPreview() {
-    ExpenseItem(expenseData = ExpenseData(
+    ExpenseItem(
+        expenseData = ExpenseData(
         id = 1,
         title = "Grocery Shopping",
         description = "Bought essentials Bought essentials Bought essentials",
         amount = "75.50",
         categoryId = 3, // Assuming this corresponds to the Food category
         date = "29-02-2024"
-    ))
+    ), onExpenseItemClick = {
+
+        })
 }

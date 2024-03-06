@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,12 +42,13 @@ import com.example.expensetracker.presentation.dashboard.Dashboard
 @Composable
 fun DashboardScreen(
     modifier: Modifier = Modifier,
+    navigateToExpenseListScreen: () -> Unit
 ) {
     Box(
-        modifier = modifier
+        modifier = Modifier.testTag("Dashboard")
             .fillMaxSize(),
     ) {
-        Dashboard(modifier = modifier)
+        Dashboard(modifier = modifier, onViewAllClicked = navigateToExpenseListScreen)
         FabAnimatedContainer(modifier = Modifier.align(Alignment.BottomEnd))
     }
 }
@@ -54,7 +56,7 @@ fun DashboardScreen(
 @Preview(showSystemUi = true)
 @Composable
 private fun MainScreenPreview() {
-    DashboardScreen()
+    DashboardScreen() {}
 }
 
 @Composable

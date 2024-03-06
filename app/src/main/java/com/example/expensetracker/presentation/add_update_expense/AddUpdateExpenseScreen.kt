@@ -56,6 +56,8 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -90,6 +92,7 @@ private const val TAG = "AddUpdateExpenseScreen"
 fun AddUpdateExpenseScreen(
     modifier: Modifier = Modifier,
     viewModel: AddUpdateExpenseViewModel = hiltViewModel(),
+    expenseId: Int = -1,
     onBack: () -> Unit
 ) {
     val context = LocalContext.current
@@ -102,6 +105,7 @@ fun AddUpdateExpenseScreen(
     }
 
     Scaffold(
+        modifier = Modifier.semantics { contentDescription = "AddUpdateScreen" },
         snackbarHost = { SnackbarHost(snackBarHostState) },
         topBar = {
             ExpenseTrackerAppBar(

@@ -29,7 +29,11 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,7 +51,8 @@ import com.example.expensetracker.presentation.ui.theme.openSansBoldFontFamily
 @Composable
 fun Dashboard(
     modifier: Modifier = Modifier,
-    viewModel: DashboardViewModel = hiltViewModel()
+    viewModel: DashboardViewModel = hiltViewModel(),
+    onViewAllClicked: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -57,6 +62,7 @@ fun Dashboard(
     Scaffold(
         topBar = {
             ExpenseTrackerAppBar(
+                modifier = modifier.testTag("Dashboard"),
                 title = context.getString(R.string.dashboard_heading),
                 navigationIcon = {
                     IconButton(onClick = {}) {
@@ -80,7 +86,7 @@ fun Dashboard(
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            Expenses(modifier = modifier, expenses = expenses)
+            Expenses(modifier = modifier, expenses = expenses, onViewAllClicked = onViewAllClicked)
         }
     }
 }
@@ -130,7 +136,7 @@ fun TotalExpense(modifier: Modifier = Modifier, totalSpent: Double) {
 }
 
 @Composable
-fun Expenses(modifier: Modifier=Modifier, expenses: List<Expense>) {
+fun Expenses(modifier: Modifier=Modifier, expenses: List<Expense>,onViewAllClicked: () -> Unit) {
 
     Row(modifier = Modifier
         .fillMaxWidth()
@@ -148,8 +154,9 @@ fun Expenses(modifier: Modifier=Modifier, expenses: List<Expense>) {
                 modifier = Modifier
                     .padding(horizontal = 10.dp, vertical = 4.dp)
                     .clickable {
+                        onViewAllClicked()
                     },
-                text = "View all",
+                text = stringResource(R.string.text_view_all),
                 fontFamily = openSansBoldFontFamily,
                 color = Color.Gray,
                 fontSize = 12.sp
@@ -159,13 +166,14 @@ fun Expenses(modifier: Modifier=Modifier, expenses: List<Expense>) {
 
     ExpenseList(
         expenses = expenses,
-        showTillYesterday = true
+        showTillYesterday = true,
+        onExpenseItemClick = {}
     )
 }
 
 @Preview(showSystemUi = true)
 @Composable
 private fun DashboardPreview() {
-    Dashboard()
+    Dashboard() {}
 }
 
