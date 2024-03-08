@@ -65,7 +65,4 @@ class NavigationTest {
         composeTestRule.onNodeWithContentDescription("AddUpdateScreen").assertIsDisplayed()
     }
 
-    private fun navigateFromDashboardToExpenseListScreen(context: Context) {
-        composeTestRule.onNodeWithText(context.getString(R.string.text_view_all)).performClick()
-    }
 }
