@@ -8,6 +8,7 @@ import com.example.expensetracker.data.repositories.ExpenseRepository
 import com.example.expensetracker.domain.repositories.FakeExpenseRepository
 import com.example.expensetracker.domain.usecases.AddOrUpdateExpense
 import com.example.expensetracker.domain.usecases.GetCurrentMonthTotalSpent
+import com.example.expensetracker.domain.usecases.GetExpense
 import com.example.expensetracker.domain.usecases.GetExpenses
 import com.example.expensetracker.domain.usecases.RemoveExpense
 import com.example.expensetracker.domain.usecases.UseCase
@@ -43,10 +44,11 @@ object TestAppModule {
     fun provideTestUseCase(@Named("fake_expense_tracker_repository") repository: ExpenseRepository) : UseCase {
         Log.i("TestModule", "provideTestUseCase: REPO : $repository")
         return UseCase(
-            getExpense = GetExpenses(repository),
+            getExpenses = GetExpenses(repository),
             addOrUpdateExpense = AddOrUpdateExpense(repository),
             removeExpense = RemoveExpense(repository),
             getCurrentMonthTotalSpent = GetCurrentMonthTotalSpent(repository),
+            getExpense = GetExpense(repository),
         )
     }
 }

@@ -1,9 +1,11 @@
 package com.example.expensetracker.presentation.add_update_expense
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.expensetracker.common.toExpenseData
 import com.example.expensetracker.data.db.entities.Category
 import com.example.expensetracker.domain.usecases.UseCase
 import com.example.expensetracker.presentation.add_update_expense.AddUpdateExpenseState.Companion.INVALID_ADD_UPDATE_EXPENSE_STATE
@@ -12,6 +14,7 @@ import com.example.expensetracker.presentation.add_update_expense.data.ExpenseDa
 import com.example.expensetracker.presentation.add_update_expense.data.ExpenseData.Companion.toExpenseEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -35,6 +38,14 @@ class AddUpdateExpenseViewModel @Inject constructor (
         return@async isExpenseInserted
     }
 
+    fun getExpense(expenseId: Int) = viewModelScope.launch {
+        val expense = useCase.getExpense(expenseId)
+        expense?.let {
+            _expenseData.value = expense.toExpenseData()
+            _addExpenseState.value.expenseData = _expenseData.value
+        }
+    }
+
     fun setExpenseAmount(
         amount: String = "0"
     ) {
@@ -56,4 +67,15 @@ class AddUpdateExpenseViewModel @Inject constructor (
         _addExpenseState.value = _addExpenseState.value.copy(expenseData = _expenseData.value)
     }
 
+    fun resetState() {
+        _addExpenseState.value = INVALID_ADD_UPDATE_EXPENSE_STATE.copy(
+            expenseData = INVALID_EXPENSE_DATA.copy(id= 0, title = "", description = "", amount = "", categoryId = -1, date = ""),
+            isUpdate = false
+        )
+        Log.i(TAG, "resetState: ${_addExpenseState.value}")
+    }
+
+    companion object{
+        private const val TAG = "AddUpdateExpenseViewMod"
+    }
 }

@@ -13,5 +13,7 @@ interface ExpenseRepository {
 
     suspend fun getAllExpenses(): Flow<List<Expense>>
 
+    suspend fun getExpenseByID(expenseId: Int) : Expense?
+
     suspend fun getCurrentMonthExpenses(): Flow<Double?>
 }

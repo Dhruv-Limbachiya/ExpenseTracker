@@ -75,6 +75,7 @@ import com.davidmiguel.numberkeyboard.listener.NumberKeyboardListener
 import com.example.expensetracker.R
 import com.example.expensetracker.data.db.entities.Category
 import com.example.expensetracker.presentation.add_update_expense.data.ExpenseData
+import com.example.expensetracker.presentation.add_update_expense.data.ExpenseData.Companion.getCategory
 import com.example.expensetracker.presentation.common.ExpenseTrackerAppBar
 import com.example.expensetracker.presentation.ui.theme.lightGray
 import com.example.expensetracker.presentation.ui.theme.openSansBoldFontFamily
@@ -84,6 +85,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.exp
 
 
 private const val TAG = "AddUpdateExpenseScreen"
@@ -101,7 +103,16 @@ fun AddUpdateExpenseScreen(
     val snackBarHostState = remember { SnackbarHostState() }
 
     BackHandler {
+        viewModel.resetState()
         onBack()
+    }
+    
+    LaunchedEffect(key1 = Unit) {
+        if(expenseId != -1) {
+            viewModel.getExpense(expenseId)
+        }else{
+            viewModel.resetState()
+        }
     }
 
     Scaffold(
@@ -111,7 +122,10 @@ fun AddUpdateExpenseScreen(
             ExpenseTrackerAppBar(
                 title = context.getString(R.string.add_amount_heading),
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    IconButton(onClick = {
+                        viewModel.resetState()
+                        onBack()
+                    }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowLeft,
                             contentDescription = "Back",
@@ -154,27 +168,12 @@ fun saveExpense(
 ) {
     val expenseData = viewModel.addExpenseState.value.expenseData
 
-//    val modifiedExpense = ExpenseData(
-//        id =  1,
-//        title = "",
-//        description = "Coco Cola",
-//        amount = "80.99",
-//        categoryId = 2,
-//        date = "2024-02-28"
-//    )
     coroutineScope.launch(Dispatchers.IO) {
         val isSaved = viewModel.addExpense(expense = expenseData).await()
+        viewModel.resetState()
         withContext(Dispatchers.Main) {
             onSaved(isSaved)
         }
-
-        /// code to test update expense test case
-//        delay(5000)
-//        viewModel.addExpenseState.value.isUpdate = true
-//        val isUpdated = viewModel.addExpense(expense = modifiedExpense).await()
-//        withContext(Dispatchers.Main) {
-//            onSaved(isUpdated)
-//        }
     }
 }
 
@@ -188,7 +187,7 @@ fun AddUpdateExpenseForm(
     val description = viewModel.addExpenseState.value.expenseData.description ?: ""
 
     val categories = viewModel.categories
-    var currentExpenseType by remember { mutableStateOf(categories[0].categoryName) }
+    val category = viewModel.addExpenseState.value.expenseData.getCategory()
 
 
     Column {
@@ -203,9 +202,8 @@ fun AddUpdateExpenseForm(
         ExpenseCategory(
             modifier = modifier,
             categories = categories,
-            currentExpenseType = currentExpenseType,
+            currentExpenseType = category,
             onExpenseTypeChange = { category ->
-                currentExpenseType = category.categoryName
                 viewModel.setExpenseCategory(category)
             })
 

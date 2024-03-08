@@ -31,7 +31,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun getAllExpenses() = viewModelScope.launch {
-        useCase.getExpense().collect {
+        useCase.getExpenses().collect {
             Log.i(TAG, "getAllExpenses: $it")
             _dashboardState.value = _dashboardState.value.copy(
                 expenses = it

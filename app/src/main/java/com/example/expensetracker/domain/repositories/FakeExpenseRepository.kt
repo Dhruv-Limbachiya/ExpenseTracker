@@ -41,6 +41,10 @@ class FakeExpenseRepository : ExpenseRepository {
         return expenses
     }
 
+    override suspend fun getExpenseByID(expenseId: Int): Expense? {
+        return _expenses.value.find { it.id == expenseId }
+    }
+
     override suspend fun getCurrentMonthExpenses(): Flow<Double?> {
         _currentMonthExpense.value = calculateCurrentMonthExpenses()
         return _currentMonthExpense
