@@ -32,8 +32,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,6 +43,7 @@ import com.example.expensetracker.common.formatDoubleWithCommas
 import com.example.expensetracker.data.db.entities.Expense
 import com.example.expensetracker.presentation.common.ExpenseTrackerAppBar
 import com.example.expensetracker.presentation.expense_list.ExpenseList
+import com.example.expensetracker.presentation.expense_list.NoExpenseFound
 import com.example.expensetracker.presentation.ui.theme.lightGray
 import com.example.expensetracker.presentation.ui.theme.openSansBoldFontFamily
 
@@ -164,12 +163,16 @@ fun Expenses(modifier: Modifier=Modifier, expenses: List<Expense>,onViewAllClick
         }
     }
 
-    ExpenseList(
-        expenses = expenses,
-        showTillYesterday = true,
-        onExpenseItemClick = {},
-        onExpenseItemSwipeToDelete = {}
-    )
+    if(expenses.isEmpty()) {
+        NoExpenseFound(modifier = modifier, showAddExpenseButton = false, onAddExpenseButtonClicked = { })
+    } else {
+        ExpenseList(
+            expenses = expenses,
+            showTillYesterday = true,
+            onExpenseItemClick = {},
+            onExpenseItemSwipeToDelete = {}
+        )
+    }
 }
 
 @Preview(showSystemUi = true)

@@ -57,8 +57,15 @@ fun ExpenseListScreen(
             )
         }
     ) { innerPadding ->
-        ExpenseList(modifier = Modifier.padding(innerPadding), expenses = expenses, onExpenseItemClick = navigateToAddUpdateExpenseScreen, onExpenseItemSwipeToDelete = {
-            viewModel.deleteExpense(it)
-        })
+
+        if(expenses.isEmpty()) {
+            NoExpenseFound(modifier = modifier, onAddExpenseButtonClicked = {
+                navigateToAddUpdateExpenseScreen(-1)
+            })
+        } else {
+            ExpenseList(modifier = Modifier.padding(innerPadding), expenses = expenses, onExpenseItemClick = navigateToAddUpdateExpenseScreen, onExpenseItemSwipeToDelete = {
+                viewModel.deleteExpense(it)
+            })
+        }
     }
 }

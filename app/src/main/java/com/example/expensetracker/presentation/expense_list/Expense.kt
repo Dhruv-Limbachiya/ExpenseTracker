@@ -24,8 +24,10 @@ import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SwipeToDismiss
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDismissState
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -64,9 +66,9 @@ fun ExpenseItem(
         mutableStateOf(true)
     }
 
-    val dismissState = rememberDismissState(
+    val dismissState = rememberSwipeToDismissBoxState(
         confirmValueChange = { dismissValue ->
-            if (dismissValue == DismissValue.DismissedToStart) {
+            if (dismissValue == SwipeToDismissBoxValue.EndToStart) {
                 isSwiped = true
                 show = false
                 true
@@ -86,12 +88,12 @@ fun ExpenseItem(
     }
 
     AnimatedVisibility(visible = show,exit = fadeOut(spring())) {
-        SwipeToDismiss(state = dismissState,
-            background = {
+        SwipeToDismissBox(state = dismissState,
+            backgroundContent = {
                 val color by animateColorAsState(
                     targetValue =
                     when (dismissState.targetValue) {
-                        DismissValue.DismissedToStart -> Color.Red
+                        SwipeToDismissBoxValue.EndToStart -> Color.Red
                         else -> Color.Transparent
                     }, label = ""
                 )
@@ -111,7 +113,7 @@ fun ExpenseItem(
                     )
                 }
             },
-            dismissContent = {
+            content = {
                 Card(
                     modifier = modifier
                         .fillMaxWidth()

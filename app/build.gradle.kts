@@ -115,4 +115,7 @@ dependencies {
     // navigation
     implementation(libs.androidx.navigation.compose)
     androidTestImplementation (libs.androidx.navigation.testing)
+
+    // lottie animations
+    implementation (libs.lottie.compose)
 }
