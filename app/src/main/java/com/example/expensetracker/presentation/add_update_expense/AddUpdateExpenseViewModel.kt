@@ -68,10 +68,9 @@ class AddUpdateExpenseViewModel @Inject constructor (
     }
 
     fun resetState() {
-        _addExpenseState.value = INVALID_ADD_UPDATE_EXPENSE_STATE.copy(
-            expenseData = INVALID_EXPENSE_DATA.copy(id= 0, title = "", description = "", amount = "", categoryId = -1, date = ""),
-            isUpdate = false
-        )
+        _expenseData.value = _expenseData.value.copy(id= 0, title = "", description = "", amount = "", categoryId = -1, date = "")
+        _addExpenseState.value = addExpenseState.value.copy(expenseData = _expenseData.value, isUpdate = false)
+
         Log.i(TAG, "resetState: ${_addExpenseState.value}")
     }
 

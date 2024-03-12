@@ -167,7 +167,8 @@ fun Expenses(modifier: Modifier=Modifier, expenses: List<Expense>,onViewAllClick
     ExpenseList(
         expenses = expenses,
         showTillYesterday = true,
-        onExpenseItemClick = {}
+        onExpenseItemClick = {},
+        onExpenseItemSwipeToDelete = {}
     )
 }
 

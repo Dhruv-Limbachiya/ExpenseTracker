@@ -2,6 +2,7 @@
 
 package com.example.expensetracker.presentation.add_update_expense
 
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -110,8 +111,10 @@ fun AddUpdateExpenseScreen(
     LaunchedEffect(key1 = Unit) {
         if(expenseId != -1) {
             viewModel.getExpense(expenseId)
+            Log.i(TAG, "AddUpdateExpenseScreen: Expense Id : $expenseId")
         }else{
             viewModel.resetState()
+            Log.i(TAG, "AddUpdateExpenseScreen: Expense Id : $expenseId")
         }
     }
 

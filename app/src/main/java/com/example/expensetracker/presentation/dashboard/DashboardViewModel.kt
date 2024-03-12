@@ -6,6 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.expensetracker.domain.usecases.UseCase
+import com.example.expensetracker.presentation.add_update_expense.data.ExpenseData
+import com.example.expensetracker.presentation.add_update_expense.data.ExpenseData.Companion.toExpenseEntity
 import com.example.expensetracker.presentation.dashboard.DashboardState.Companion.INVALID_DASHBOARD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -45,6 +47,10 @@ class DashboardViewModel @Inject constructor(
                 totalExpenses = it ?: 0.0
             )
         }
+    }
+
+    fun deleteExpense(expenseData: ExpenseData) = viewModelScope.launch {
+        useCase.removeExpense(expense = expenseData.toExpenseEntity(true))
     }
 
     companion object {

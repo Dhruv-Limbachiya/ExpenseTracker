@@ -21,29 +21,33 @@ import com.example.expensetracker.common.toDate
 import com.example.expensetracker.common.toExpenseData
 import com.example.expensetracker.common.toddMMMyyyy
 import com.example.expensetracker.data.db.entities.Expense
+import com.example.expensetracker.presentation.add_update_expense.data.ExpenseData
 import com.example.expensetracker.presentation.ui.theme.openSansBoldFontFamily
 import kotlin.random.Random
 
 private const val TAG = "ExpenseList"
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ExpenseList(
     modifier: Modifier = Modifier,
     expenses: List<Expense> = emptyList(),
     showTillYesterday: Boolean = false,
-    onExpenseItemClick:(Int) -> Unit
-    ) {
-    
+    onExpenseItemClick: (Int) -> Unit,
+    onExpenseItemSwipeToDelete: (ExpenseData) -> Unit
+) {
+
     val dateWiseExpenseMap = mutableMapOf<String, MutableList<Expense>>()
 
     expenses.forEach {
-        if(it.date == System.currentTimeMillis().toDate()) {
+        if (it.date == System.currentTimeMillis().toDate()) {
             dateWiseExpenseMap.getOrPut("Today") { mutableListOf() }.add(it)  /// today's expenses
-        }else if(it.date?.isYesterday() == true){
-            dateWiseExpenseMap.getOrPut("Yesterday"){ mutableListOf() }.add(it) /// yesterday
-        }else {
-            if(!showTillYesterday) {
-                dateWiseExpenseMap.getOrPut(it.date?.toddMMMyyyy() ?: ""){ mutableListOf() }.add(it) /// other day
+        } else if (it.date?.isYesterday() == true) {
+            dateWiseExpenseMap.getOrPut("Yesterday") { mutableListOf() }.add(it) /// yesterday
+        } else {
+            if (!showTillYesterday) {
+                dateWiseExpenseMap.getOrPut(it.date?.toddMMMyyyy() ?: "") { mutableListOf() }
+                    .add(it) /// other day
             }
         }
     }
@@ -56,18 +60,26 @@ fun ExpenseList(
 
         dateWiseExpenseMap.keys
             .forEach { date ->
-            stickyHeader {
-                Text(text = date,
-                    modifier = Modifier.fillMaxWidth().background(color = Color.White).padding(4.dp),
-                    fontFamily = openSansBoldFontFamily,
-                    color = Color.Gray,
-                    fontSize = 12.sp
-                )
+                stickyHeader {
+                    Text(
+                        text = date,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = Color.White)
+                            .padding(4.dp),
+                        fontFamily = openSansBoldFontFamily,
+                        color = Color.Gray,
+                        fontSize = 12.sp
+                    )
+                }
+                items(dateWiseExpenseMap[date]?.toList() ?: emptyList()) {
+                    ExpenseItem(
+                        modifier = Modifier.testTag("expenseItem"),
+                        expenseData = it.toExpenseData(),
+                        onExpenseItemClick = onExpenseItemClick,
+                        onExpenseItemSwiped = onExpenseItemSwipeToDelete)
+                }
             }
-            items(dateWiseExpenseMap[date]?.toList() ?: emptyList()) {
-                ExpenseItem(modifier = Modifier.testTag("expenseItem"),expenseData = it.toExpenseData(), onExpenseItemClick = onExpenseItemClick,)
-            }
-        }
 
     }
 }
@@ -76,6 +88,8 @@ fun ExpenseList(
 @Composable
 private fun ExpenseListPreview() {
     ExpenseList(expenses = generateRandomExpenseList(), onExpenseItemClick = {
+
+    }, onExpenseItemSwipeToDelete = {
 
     })
 }

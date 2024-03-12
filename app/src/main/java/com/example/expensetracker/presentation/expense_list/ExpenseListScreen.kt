@@ -32,7 +32,8 @@ import kotlinx.coroutines.launch
 fun ExpenseListScreen(
     modifier: Modifier = Modifier,
     viewModel: DashboardViewModel = hiltViewModel(),
-    navigateToAddUpdateExpenseScreen: (Int) -> Unit
+    navigateToAddUpdateExpenseScreen: (Int) -> Unit,
+    onBackPress: () -> Unit
 ) {
 
     val context = LocalContext.current
@@ -45,7 +46,7 @@ fun ExpenseListScreen(
             ExpenseTrackerAppBar(
                 title = context.getString(R.string.expenses),
                 navigationIcon = {
-                    IconButton(onClick = {}, modifier = Modifier.testTag("ExpenseBack")) {
+                    IconButton(onClick = onBackPress, modifier = Modifier.testTag("ExpenseBack")) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowLeft,
                             contentDescription = "Back",
@@ -56,6 +57,8 @@ fun ExpenseListScreen(
             )
         }
     ) { innerPadding ->
-        ExpenseList(modifier = Modifier.padding(innerPadding), expenses = expenses, onExpenseItemClick = navigateToAddUpdateExpenseScreen)
+        ExpenseList(modifier = Modifier.padding(innerPadding), expenses = expenses, onExpenseItemClick = navigateToAddUpdateExpenseScreen, onExpenseItemSwipeToDelete = {
+            viewModel.deleteExpense(it)
+        })
     }
 }

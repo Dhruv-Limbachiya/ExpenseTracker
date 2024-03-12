@@ -6,7 +6,7 @@ import com.example.expensetracker.data.repositories.ExpenseRepository
 class RemoveExpense(
     private var expenseRepository: ExpenseRepository
 ) {
-    suspend fun invoke(expense: Expense){
+    suspend operator fun invoke(expense: Expense){
         expenseRepository.deleteExpense(expense)
     }
 }

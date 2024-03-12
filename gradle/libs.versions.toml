@@ -22,6 +22,7 @@ coreKtxVersion = "1.5.0"
 truth = "1.3.0"
 turbineVersion = "1.0.0"
 hiltNavigationCompose = "1.2.0"
+material3Android = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -57,6 +58,7 @@ lifecycle-runtime = {module = "androidx.lifecycle:lifecycle-runtime-ktx", versio
 core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxVersion" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbineVersion" }
+androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
