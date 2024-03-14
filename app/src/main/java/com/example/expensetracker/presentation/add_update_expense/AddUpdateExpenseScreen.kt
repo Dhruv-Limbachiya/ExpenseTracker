@@ -56,6 +56,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
@@ -74,18 +75,15 @@ import com.davidmiguel.numberkeyboard.data.NumberKeyboardData
 import com.davidmiguel.numberkeyboard.listener.NumberKeyboardListener
 import com.example.expensetracker.R
 import com.example.expensetracker.data.db.entities.Category
-import com.example.expensetracker.presentation.add_update_expense.data.ExpenseData
 import com.example.expensetracker.presentation.add_update_expense.data.ExpenseData.Companion.getCategory
 import com.example.expensetracker.presentation.common.ExpenseTrackerAppBar
 import com.example.expensetracker.presentation.ui.theme.lightGray
 import com.example.expensetracker.presentation.ui.theme.openSansBoldFontFamily
-import com.example.expensetracker.presentation.ui.theme.purplePrimary
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.math.exp
 
 
 private const val TAG = "AddUpdateExpenseScreen"
@@ -106,11 +104,11 @@ fun AddUpdateExpenseScreen(
         viewModel.resetState()
         onBack()
     }
-    
+
     LaunchedEffect(key1 = Unit) {
-        if(expenseId != -1) {
+        if (expenseId != -1) {
             viewModel.getExpense(expenseId)
-        }else{
+        } else {
             viewModel.resetState()
         }
     }
@@ -143,14 +141,19 @@ fun AddUpdateExpenseScreen(
                         minHeight = 76.dp,
                     ),
                 onClick = {
-                saveExpense(viewModel,coroutineScope) { isSaved ->
                     coroutineScope.launch {
-                        val message = if(isSaved) "Expense Saved!" else "Failed to save your expense"
-                        snackBarHostState.showSnackbar(message)
-                        onBack()
+                        if (isValidDetails(viewModel, snackBarHostState, coroutineScope)) {
+                            saveExpense(viewModel, coroutineScope) { isSaved ->
+                                coroutineScope.launch {
+                                    val message =
+                                        if (isSaved) "Expense Saved!" else "Failed to save your expense"
+                                    snackBarHostState.showSnackbar(message)
+                                    onBack()
+                                }
+                            }
+                        }
                     }
-                }
-            }) {
+                }) {
                 Icon(imageVector = Icons.Rounded.AddTask, contentDescription = "Add Expense")
             }
         },
@@ -161,11 +164,31 @@ fun AddUpdateExpenseScreen(
     }
 }
 
+suspend fun isValidDetails(
+    viewModel: AddUpdateExpenseViewModel,
+    snackBarHostState: SnackbarHostState,
+    coroutineScope: CoroutineScope
+) = coroutineScope.async {
+    if (viewModel.addExpenseState.value.expenseData.amount.isEmpty()) {
+        snackBarHostState.showSnackbar("Amount can't be empty")
+        return@async false
+    } else if(viewModel.addExpenseState.value.expenseData.amount.toInt() < 0) {
+        snackBarHostState.showSnackbar("Negative values are not allowed!")
+        return@async false
+    }else if(viewModel.addExpenseState.value.expenseData.description.isNullOrEmpty()) {
+        snackBarHostState.showSnackbar("Description can't be empty")
+        return@async false
+    }
+
+    return@async true
+}.await()
+
 fun saveExpense(
     viewModel: AddUpdateExpenseViewModel,
     coroutineScope: CoroutineScope,
     onSaved: (Boolean) -> Unit = {}
 ) {
+
     val expenseData = viewModel.addExpenseState.value.expenseData
 
     coroutineScope.launch(Dispatchers.IO) {
@@ -250,7 +273,7 @@ fun AmountTextField(
     }
 
     TextField(
-        modifier = modifier
+        modifier = modifier.testTag("amount_text_field")
             .fillMaxWidth()
             .height(90.dp)
             .padding(horizontal = 16.dp)

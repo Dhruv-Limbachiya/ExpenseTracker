@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.core.ktx)
     testImplementation(libs.junit)
     testImplementation (libs.core.testing)
+    testImplementation("junit:junit:4.12")
     androidTestImplementation (libs.core.testing)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
