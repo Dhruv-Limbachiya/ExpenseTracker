@@ -53,7 +53,7 @@ fun ExpenseList(
     }
 
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier.testTag("expense_list"),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {

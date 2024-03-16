@@ -16,18 +16,20 @@ class FakeExpenseRepository : ExpenseRepository {
 
     override suspend fun insertExpense(expense: Expense): Boolean {
         val mutableExpenses = _expenses.value.toMutableList()
-        val existedExpense = _expenses.value.firstOrNull { it.id == expense.id}
-
-        if(existedExpense != null) {
-            val index = _expenses.value.indexOf(existedExpense)
-            mutableExpenses.removeAt(index)
-            mutableExpenses.add(index,expense)
-        } else {
-            mutableExpenses.add(expense)
-        }
-
+        val isAdded = mutableExpenses.add(expense)
         _expenses.value = mutableExpenses
-        return true
+        return isAdded
+//        val existedExpense = _expenses.value.firstOrNull { it.id == expense.id}
+//
+//        if(existedExpense != null) {
+//            val index = _expenses.value.indexOf(existedExpense)
+//            mutableExpenses[index] = expense
+//        } else {
+//            mutableExpenses.add(expense)
+//        }
+//
+//        _expenses.value = mutableExpenses
+//        return true
     }
 
     override suspend fun deleteExpense(expense: Expense): Boolean {

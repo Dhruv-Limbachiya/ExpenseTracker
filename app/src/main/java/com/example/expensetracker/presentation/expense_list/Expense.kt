@@ -1,5 +1,6 @@
 package com.example.expensetracker.presentation.expense_list
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.spring
@@ -71,23 +72,18 @@ fun ExpenseItem(
             if (dismissValue == SwipeToDismissBoxValue.EndToStart) {
                 isSwiped = true
                 show = false
+                onExpenseItemSwiped(expenseData)
                 true
             } else {
                 isSwiped = false
                 false
             }
+
         }
     )
 
 
-
-    LaunchedEffect(key1 = isSwiped) {
-        if(isSwiped) {
-           onExpenseItemSwiped(expenseData)
-        }
-    }
-
-    AnimatedVisibility(visible = show,exit = fadeOut(spring())) {
+    AnimatedVisibility(visible = show,exit = fadeOut(spring()), modifier = modifier) {
         SwipeToDismissBox(state = dismissState,
             backgroundContent = {
                 val color by animateColorAsState(
@@ -99,13 +95,13 @@ fun ExpenseItem(
                 )
 
                 Box(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxSize()
                         .shadow(shape = RoundedCornerShape(20.dp), elevation = 2.dp)
                         .background(color = color),
                 ) {
                     Icon(
-                        modifier = modifier
+                        modifier = Modifier
                             .padding(end = 10.dp)
                             .align(Alignment.CenterEnd),
                         imageVector = Icons.Default.Delete,
@@ -115,15 +111,15 @@ fun ExpenseItem(
             },
             content = {
                 Card(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .testTag(expenseData.id.toString()),
+                        .testTag("Expense : ${expenseData.id}"),
                     colors = CardDefaults.cardColors(containerColor = mediumGray),
                     shape = RoundedCornerShape(20.dp)
 
                 ) {
                     Row(
-                        modifier = modifier.clickable { onExpenseItemClick(expenseData.id) },
+                        modifier = Modifier.clickable { onExpenseItemClick(expenseData.id) },
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box(
@@ -143,21 +139,27 @@ fun ExpenseItem(
                         Spacer(modifier = Modifier.width(20.dp))
 
                         ExpenseTitleDescription(
-                            modifier
+                            Modifier
                                 .weight(1f)
                                 .padding(end = 10.dp),
                             category = expenseData.getCategory(),
                             description = expenseData.description.toString()
                         )
 
-                        ExpenseAmount(modifier.padding(end = 30.dp), expenseData.amount)
+                        ExpenseAmount(Modifier.padding(end = 30.dp), expenseData.amount)
                     }
                 }
             }
         )
     }
 
-
+//
+//    LaunchedEffect(key1 = isSwiped, key2 = show) {
+//        Log.i("Expense", "ExpenseItem: is swiped $isSwiped")
+//        if(isSwiped) {
+//            onExpenseItemSwiped(expenseData)
+//        }
+//    }
 }
 
 @Composable

@@ -65,6 +65,7 @@ class DashboardViewModelTest {
         runBlocking {
             // arrange
             val expense = Expense(
+                id =1,
                 title = "Pizza",
                 description = "7 cheesy pizza",
                 amount = 235.60,
@@ -77,6 +78,7 @@ class DashboardViewModelTest {
                 delay(1000)
 
                 val burger = Expense(
+                    id =2,
                     title = "Burger",
                     description = "Double Patty Veg Burger",
                     amount = 199.0,
