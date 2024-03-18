@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ExpenseListScreen(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.semantics { contentDescription = "ExpenseListScreen" },
     viewModel: DashboardViewModel = hiltViewModel(),
     navigateToAddUpdateExpenseScreen: (Int) -> Unit,
     onBackPress: () -> Unit
@@ -40,7 +40,7 @@ fun ExpenseListScreen(
     val expenses = viewModel.dashboardState.value.expenses
 
     Scaffold(
-        modifier = Modifier.semantics { contentDescription = "ExpenseListScreen" },
+        modifier = modifier,
         snackbarHost = { },
         topBar = {
             ExpenseTrackerAppBar(

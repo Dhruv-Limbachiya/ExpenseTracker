@@ -33,7 +33,7 @@ import javax.inject.Inject
 import javax.inject.Named
 
 @HiltAndroidTest
-class ExpenseListScreenKtTest {
+class ExpenseListScreenTest {
 
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
