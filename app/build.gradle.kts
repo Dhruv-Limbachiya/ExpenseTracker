@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.daggerHiltAndroid)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -119,4 +120,8 @@ dependencies {
 
     // lottie animations
     implementation (libs.lottie.compose)
+
+    // firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
 }
