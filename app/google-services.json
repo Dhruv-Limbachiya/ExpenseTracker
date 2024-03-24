@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:952999116053:android:06dcf1afdad39c60793d1c",
+        "mobilesdk_app_id": "1:952999116053:android:955fbc3286fd71b7793d1c",
         "android_client_info": {
-          "package_name": "com.example.expensetracker"
+          "package_name": "com.dhruvv.expensetracker"
         }
       },
       "oauth_client": [],

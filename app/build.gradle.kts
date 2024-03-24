@@ -7,17 +7,17 @@ plugins {
 }
 
 android {
-    namespace = "com.example.expensetracker"
+    namespace = "com.dhruvv.expensetracker"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.expensetracker"
+        applicationId = "com.dhruvv.expensetracker"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "com.example.expensetracker.HiltTestRunner"
+        testInstrumentationRunner = "com.dhruvv.expensetracker.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
