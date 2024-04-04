@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+/certificates/
+/fastlane/
+/Gemfile
+/Gemfile.lock
