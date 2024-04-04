@@ -21,7 +21,7 @@ import com.dhruvv.expensetracker.presentation.dashboard.DashboardViewModel
 
 @Composable
 fun ExpenseListScreen(
-    modifier: Modifier = Modifier.semantics { contentDescription = "ExpenseListScreen" },
+    modifier: Modifier = Modifier,
     viewModel: DashboardViewModel = hiltViewModel(),
     navigateToAddUpdateExpenseScreen: (Int) -> Unit,
     onBackPress: () -> Unit
@@ -31,7 +31,7 @@ fun ExpenseListScreen(
     val expenses = viewModel.dashboardState.value.expenses
 
     Scaffold(
-        modifier = modifier,
+        modifier = Modifier.semantics { contentDescription = "ExpenseListScreen" },
         snackbarHost = { },
         topBar = {
             ExpenseTrackerAppBar(

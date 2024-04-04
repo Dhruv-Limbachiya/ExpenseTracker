@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.dhruvv.expensetracker.data.db.dao.ExpenseDao
 import com.dhruvv.expensetracker.data.db.entities.Expense
 
-@Database(entities = [Expense::class], version = 1)
+@Database(entities = [Expense::class], version = 1, exportSchema = false)
 abstract class ExpenseTrackerDB : RoomDatabase() {
 
     abstract fun getExpenseDao(): ExpenseDao

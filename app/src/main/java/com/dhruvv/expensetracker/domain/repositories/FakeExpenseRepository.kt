@@ -55,7 +55,7 @@ class FakeExpenseRepository : ExpenseRepository {
 
     private fun calculateCurrentMonthExpenses(): Double {
         val currentMonth = expenses.value.filter {
-            it.date!!.startsWith("2024-02")
+            it.date!!.startsWith("2024-04")
         }
 
         val currentMonthExpense = currentMonth.sumOf {

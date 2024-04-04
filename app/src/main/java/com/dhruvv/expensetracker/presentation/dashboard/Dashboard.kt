@@ -58,6 +58,8 @@ fun Dashboard(
     val totalSpent = viewModel.dashboardState.value.totalExpenses
     val expenses = viewModel.dashboardState.value.expenses
 
+
+
     Scaffold(
         topBar = {
             ExpenseTrackerAppBar(

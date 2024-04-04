@@ -61,7 +61,7 @@ class NavigationTest {
     fun navHost_onExpenseItemClick_navigateToAddUpdateExpenseScreen() {
         composeTestRule.onNodeWithText("View all").performClick()
         composeTestRule.onNodeWithTag("ExpenseBack").performClick()
-        composeTestRule.onNodeWithContentDescription("AddUpdateScreen").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("Dashboard").assertIsDisplayed()
     }
 
 }

@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+/Gemfile.lock
+/Gemfile
+/certificates/firebase-app-distribution-key.json
+/certificates/playstore-app-distribution-key.json

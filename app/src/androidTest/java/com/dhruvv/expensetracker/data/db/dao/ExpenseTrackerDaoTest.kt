@@ -136,7 +136,7 @@ class ExpenseTrackerDaoTest {
                description = "7 cheesy pizza",
                amount = 235.60,
                categoryId = Category.FOOD_CATEGORY.categoryId,
-               date = "2024-01-01",
+               date = "2024-04-01",
            )
 
            val burger = Expense(
@@ -144,7 +144,7 @@ class ExpenseTrackerDaoTest {
                description = "Veg Double Patty Burger",
                amount = 199.0,
                categoryId = Category.FOOD_CATEGORY.categoryId,
-               date = "2024-01-01",
+               date = "2024-04-01",
            )
 
            val shirt = Expense(

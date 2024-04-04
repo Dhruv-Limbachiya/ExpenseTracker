@@ -14,7 +14,7 @@ android {
         applicationId = "com.dhruvv.expensetracker"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
+        versionCode = 3
         versionName = "1.0"
 
         testInstrumentationRunner = "com.dhruvv.expensetracker.HiltTestRunner"
@@ -52,6 +52,14 @@ android {
     }
     kapt {
         correctErrorTypes = true
+    }
+
+    afterEvaluate {
+        val copyReleaseApk by tasks.creating(Copy::class) {
+            from("$rootDir/release")
+            into("$$rootDir/fastlane" + "/outputs/apk/release")
+            // You can also rename the file here using 'rename'
+        }
     }
 }
 
