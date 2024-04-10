@@ -67,6 +67,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.davidmiguel.numberkeyboard.NumberKeyboard
 import com.davidmiguel.numberkeyboard.NumberKeyboardAuxButton
@@ -211,6 +212,7 @@ fun AddUpdateExpenseForm(
 
     val categories = viewModel.categories
     val category = viewModel.addExpenseState.value.expenseData.getCategory()
+    val regex = Regex("[^\\d]+")
 
 
     Column {
@@ -218,7 +220,9 @@ fun AddUpdateExpenseForm(
             modifier = modifier,
             amount = if (amount.isEmpty()) "" else amount.toString(),
             onAmountChange = { changedAmt ->
-                viewModel.setExpenseAmount(changedAmt)
+                if(!regex.matches(changedAmt)) {
+                    viewModel.setExpenseAmount(changedAmt)
+                }
             }
         )
 
