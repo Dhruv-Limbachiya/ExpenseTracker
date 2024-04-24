@@ -2,22 +2,7 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="DashboardViewModelTest">
-        <State />
-      </entry>
-      <entry key="ExpenseListScreenKtTest">
-        <State />
-      </entry>
       <entry key="app">
-        <State />
-      </entry>
-      <entry key="fetchExpenses_whenGetExpenseUseCaseInvoked_shouldReturnSuccess()">
-        <State />
-      </entry>
-      <entry key="test_swipeExpenseItem_shouldRemoveExpense()">
-        <State />
-      </entry>
-      <entry key="test_whenExpenseListIsNotEmpty_expenseListSizeGreaterThanZero()">
         <State />
       </entry>
     </value>
