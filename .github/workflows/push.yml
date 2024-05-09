@@ -24,8 +24,8 @@ jobs:
       - name: set up JDK 11
         uses: actions/setup-java@v3
         with:
-          # This specifies the desired JDK version to be 11.
-          java-version: '11'
+          # This specifies the desired JDK version to be 17.
+          java-version: '17'
           # This specifies the Java distribution to use (temurin by Red Hat).
           distribution: 'temurin'
           # This instructs the action to cache downloaded Gradle files for efficiency.
