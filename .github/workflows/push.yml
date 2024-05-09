@@ -1,18 +1,47 @@
-name: push-code # name of the workflow
+# This workflow is named "CI" and runs whenever there's a push event to the repository.
+name: ci
 
-on: [push] # trigger workflow on every "push" event
+# This workflow is triggered on the "push" event. This means it will run whenever there's a push to any branch in the repository.
+on: [ push ]
 
-jobs: # jobs need to execute on "push" event
-  test-push-workflow:
-    runs-on: ubuntu-latest # run jobs on "ubuntu" runner
+# This defines a job named "build" that will be executed within the workflow.
+jobs:
+  build:
+    # This specifies that the job will run on an Ubuntu virtual machine provided by GitHub Actions.
+    runs-on: ubuntu-latest
 
-    steps: # steps to run
+    # This defines the steps that will be executed within the "build" job.
+    steps:
+      # This step uses the "actions/checkout@v4" action to clone the repository code into the runner's workspace.
       - name: Checkout the repository code
         uses: actions/checkout@v4
-      - run:  echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
 
-      - name: List of the files
-        run: ls ${{github.workspace}}
+      # This step prints a message to the workflow log indicating that the code has been cloned.
+      - run: echo " The ${{ github.repository }} repository has been cloned to the runner."
 
-      - run: echo "🍏 This job's status is ${{ job.status }}."
 
+      # This step uses the "actions/setup-java@v3" action to set up JDK 11 for building the project.
+      - name: set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          # This specifies the desired JDK version to be 11.
+          java-version: '11'
+          # This specifies the Java distribution to use (temurin by Red Hat).
+          distribution: 'temurin'
+          # This instructs the action to cache downloaded Gradle files for efficiency.
+          cache: gradle
+
+      # This step grants execute permission to the gradlew script for running the build process.
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+
+      # This step executes the Gradle build process using the ./gradlew build command.
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Ktlint
+        run: ./gradlew ktlint
+
+      - name: Lint
+        run: ./gradlew lintDevRelease
