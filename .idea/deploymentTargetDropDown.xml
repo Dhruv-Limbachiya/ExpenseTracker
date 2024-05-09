@@ -2,22 +2,7 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="All Tests">
-        <State />
-      </entry>
-      <entry key="DashboardViewModelTest">
-        <State />
-      </entry>
-      <entry key="ExpenseListScreenTest">
-        <State />
-      </entry>
       <entry key="app">
-        <State />
-      </entry>
-      <entry key="fetchExpenses_whenGetExpenseUseCaseInvoked_shouldReturnSuccess()">
-        <State />
-      </entry>
-      <entry key="getTotalAmount_whenGetCurrentMonthTotalInvoked_returnCorrectAmount()">
         <State />
       </entry>
     </value>

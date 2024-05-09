@@ -240,25 +240,6 @@ fun AddUpdateExpenseForm(
             onDescriptionChange = {
                 viewModel.setExpenseDescription(it)
             })
-
-//        val buttonModifier = Modifier
-//            .aspectRatio(2F)
-//            .size(40.dp)
-//            .weight(1F)
-//
-//        Box(
-//            modifier = modifier.weight(1f),
-//            contentAlignment = Alignment.BottomCenter
-//        ) {
-//            NumPad(
-//                modifier = modifier,
-//                onValueChanged = {
-//                    amount = it
-//                },
-//                buttonModifier = buttonModifier
-//            )
-//        }
-
     }
 }
 
