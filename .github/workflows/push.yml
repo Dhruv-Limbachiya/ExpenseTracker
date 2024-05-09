@@ -1,0 +1,18 @@
+name: push-code # name of the workflow
+
+on: [push] # trigger workflow on every "push" event
+
+jobs: # jobs need to execute on "push" event
+  test-push-workflow:
+    runs-on: ubuntu-latest # run jobs on "ubuntu" runner
+
+    steps: # steps to run
+      - name: Checkout the repository code
+        uses: actions/checkout@v4
+      - run:  echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+
+      - name: List of the files
+        run: ls ${{github.workspace}}
+
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+
