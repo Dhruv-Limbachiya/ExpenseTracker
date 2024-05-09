@@ -1,5 +1,5 @@
 [versions]
-agp = "8.4.0-alpha04"
+agp = "8.3.0"
 androidxHiltNavigationCompose = "1.0.0-alpha03"
 coreTesting = "2.2.0"
 firebaseBom = "32.7.4"
