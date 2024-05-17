@@ -18,10 +18,9 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+
 @HiltAndroidTest
 class NavigationTest {
-
-
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
@@ -45,7 +44,6 @@ class NavigationTest {
         hiltRule.inject()
     }
 
-
     @Test
     fun navHost_verifyStartDestination() {
         composeTestRule.onNodeWithTag("Dashboard").assertIsDisplayed()
@@ -63,5 +61,4 @@ class NavigationTest {
         composeTestRule.onNodeWithTag("ExpenseBack").performClick()
         composeTestRule.onNodeWithTag("Dashboard").assertIsDisplayed()
     }
-
 }

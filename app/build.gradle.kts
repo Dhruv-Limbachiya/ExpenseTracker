@@ -1,8 +1,11 @@
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+
 plugins {
     kotlin("kapt")
     alias(libs.plugins.daggerHiltAndroid)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.ktLint)
     id("com.google.gms.google-services")
 }
 
@@ -28,7 +31,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -61,7 +64,21 @@ android {
             // You can also rename the file here using 'rename'
         }
     }
+
+    ktlint {
+        android = true
+        ignoreFailures = false
+        reporters {
+            reporter(ReporterType.PLAIN)
+            reporter(ReporterType.SARIF)
+            reporter(ReporterType.CHECKSTYLE)
+        }
+        outputToConsole.set(true)
+        outputColorName.set("YELLOW")
+    }
 }
+
+tasks.getByPath("preBuild").dependsOn("ktlintCheck")
 
 dependencies {
 
@@ -75,9 +92,9 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.core.ktx)
     testImplementation(libs.junit)
-    testImplementation (libs.core.testing)
+    testImplementation(libs.core.testing)
     testImplementation("junit:junit:4.12")
-    androidTestImplementation (libs.core.testing)
+    androidTestImplementation(libs.core.testing)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -85,9 +102,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-
-    testImplementation (libs.truth)
-    androidTestImplementation (libs.truth)
+    testImplementation(libs.truth)
+    androidTestImplementation(libs.truth)
 
     // dagger hilt
     implementation(libs.hilt.android)
@@ -97,7 +113,6 @@ dependencies {
     kaptTest(libs.hilt.android.compiler)
     androidTestImplementation(libs.hilt.android.testing) // For instrumented tests.
     kaptAndroidTest(libs.hilt.android.compiler)
-
 
     // room
     implementation(libs.room.android)
@@ -118,16 +133,16 @@ dependencies {
     androidTestImplementation(libs.turbine)
 
     // number keypad
-    implementation (libs.number.keyboard)
+    implementation(libs.number.keyboard)
 
     implementation(libs.androidx.material.icons.extended.android)
 
     // navigation
     implementation(libs.androidx.navigation.compose)
-    androidTestImplementation (libs.androidx.navigation.testing)
+    androidTestImplementation(libs.androidx.navigation.testing)
 
     // lottie animations
-    implementation (libs.lottie.compose)
+    implementation(libs.lottie.compose)
 
     // firebase
     implementation(platform(libs.firebase.bom))

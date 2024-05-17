@@ -5,5 +5,5 @@ data class UseCase(
     val getExpense: GetExpense,
     val addOrUpdateExpense: AddOrUpdateExpense,
     val removeExpense: RemoveExpense,
-    val getCurrentMonthTotalSpent: GetCurrentMonthTotalSpent
+    val getCurrentMonthTotalSpent: GetCurrentMonthTotalSpent,
 )

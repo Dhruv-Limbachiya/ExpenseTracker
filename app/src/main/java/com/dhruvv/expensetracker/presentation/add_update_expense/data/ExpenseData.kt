@@ -21,7 +21,7 @@ data class ExpenseData(
     val description: String? = null,
     val amount: String = "",
     val categoryId: Int = 0,
-    val date: String? = null
+    val date: String? = null,
 ) {
     companion object {
         val INVALID_EXPENSE_DATA = ExpenseData()
@@ -31,15 +31,15 @@ data class ExpenseData(
                 id = id,
                 title = title,
                 description = description,
-                amount = if(amount.isEmpty()) 0.0 else amount.toDouble(),
+                amount = if (amount.isEmpty()) 0.0 else amount.toDouble(),
                 categoryId = categoryId,
-                date = if(isUpdate) date else System.currentTimeMillis().toDate()
+                date = if (isUpdate) date else System.currentTimeMillis().toDate(),
 //                date = if(isUpdate) date else getYesterdayDate()
             )
         }
 
-        fun ExpenseData.getCategory() : String {
-            return when(categoryId) {
+        fun ExpenseData.getCategory(): String {
+            return when (categoryId) {
                 1 -> Category.HOUSING_CATEGORY.categoryName
                 2 -> Category.TRANSPORTATION_CATEGORY.categoryName
                 3 -> Category.FOOD_CATEGORY.categoryName
@@ -53,8 +53,8 @@ data class ExpenseData(
             }
         }
 
-        fun ExpenseData.getIcon() : ImageVector {
-            return when(categoryId) {
+        fun ExpenseData.getIcon(): ImageVector {
+            return when (categoryId) {
                 1 -> Icons.Outlined.Home
                 2 -> Icons.Outlined.DirectionsTransit
                 3 -> Icons.Outlined.Fastfood

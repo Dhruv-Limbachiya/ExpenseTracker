@@ -40,11 +40,12 @@ import com.dhruvv.expensetracker.presentation.dashboard.Dashboard
 @Composable
 fun DashboardScreen(
     modifier: Modifier = Modifier,
-    navigateToExpenseListScreen: () -> Unit
+    navigateToExpenseListScreen: () -> Unit,
 ) {
     Box(
-        modifier = Modifier.testTag("Dashboard")
-            .fillMaxSize(),
+        modifier =
+            Modifier.testTag("Dashboard")
+                .fillMaxSize(),
     ) {
         Dashboard(modifier = modifier, onViewAllClicked = navigateToExpenseListScreen)
         FabAnimatedContainer(modifier = Modifier.align(Alignment.BottomEnd))
@@ -54,17 +55,18 @@ fun DashboardScreen(
 @Preview(showSystemUi = true)
 @Composable
 private fun MainScreenPreview() {
-    DashboardScreen() {}
+    DashboardScreen {}
 }
 
 @Composable
 fun FabAnimatedContainer(modifier: Modifier = Modifier) {
     var containerTargetState by remember { mutableStateOf(ContainerState.FAB) }
 
-    val transition = updateTransition(
-        targetState = containerTargetState,
-        label = "fab_container_transition"
-    ) // start & synchronize animation of all the child animations
+    val transition =
+        updateTransition(
+            targetState = containerTargetState,
+            label = "fab_container_transition",
+        ) // start & synchronize animation of all the child animations
 
     // animate color
     val animatedColor by transition.animateColor(label = "animate_container_color") { state ->
@@ -76,12 +78,14 @@ fun FabAnimatedContainer(modifier: Modifier = Modifier) {
 
     // animate corner radius
     val animatedCornerRadius by transition.animateDp(
-        label = "animate_container_corner_radius", transitionSpec = {
+        label = "animate_container_corner_radius",
+        transitionSpec = {
             tween(
                 durationMillis = 500,
-                easing = FastOutSlowInEasing
+                easing = FastOutSlowInEasing,
             )
-        }) { state ->
+        },
+    ) { state ->
 
         when (state) {
             ContainerState.FAB -> 22.dp
@@ -106,30 +110,43 @@ fun FabAnimatedContainer(modifier: Modifier = Modifier) {
     }
 
     transition.AnimatedContent(
-        modifier = modifier
-            .padding(
-                end = animatedPadding, bottom = animatedPadding
-            )
-            .shadow(
-                elevation = animatedElevation,
-                shape = RoundedCornerShape(animatedCornerRadius)
-            )
-            .drawBehind {
-                drawRect(animatedColor)
-            },
+        modifier =
+            modifier
+                .padding(
+                    end = animatedPadding,
+                    bottom = animatedPadding,
+                )
+                .shadow(
+                    elevation = animatedElevation,
+                    shape = RoundedCornerShape(animatedCornerRadius),
+                )
+                .drawBehind {
+                    drawRect(animatedColor)
+                },
         transitionSpec = {
             (
-                    fadeIn(animationSpec = tween(500, delayMillis = 90)) +
-                            scaleIn(initialScale = 0.8f, animationSpec = tween(500, delayMillis = 90,), transformOrigin = TransformOrigin(0.9f,0.9f))
+                fadeIn(animationSpec = tween(500, delayMillis = 90)) +
+                    scaleIn(
+                        initialScale = 0.8f,
+                        animationSpec =
+                            tween(
+                                500,
+                                delayMillis = 90,
+                            ),
+                        transformOrigin =
+                            TransformOrigin(0.9f, 0.9f),
                     )
+            )
                 .togetherWith(fadeOut(animationSpec = tween(200)))
-                .using(SizeTransform(clip = false, sizeAnimationSpec = { _, _ ->
-                    tween(
-                        durationMillis = 500,
-                        easing = FastOutSlowInEasing
-                    )
-                }))
-        }
+                .using(
+                    SizeTransform(clip = false, sizeAnimationSpec = { _, _ ->
+                        tween(
+                            durationMillis = 500,
+                            easing = FastOutSlowInEasing,
+                        )
+                    }),
+                )
+        },
     ) { state ->
         when (state) {
             ContainerState.FAB -> {
@@ -150,15 +167,16 @@ fun FabAnimatedContainer(modifier: Modifier = Modifier) {
 @Composable
 fun AddFAB(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     FloatingActionButton(
-        modifier = modifier
-            .defaultMinSize(
-                minWidth = 76.dp,
-                minHeight = 76.dp,
-            ),
-        onClick = onClick
+        modifier =
+            modifier
+                .defaultMinSize(
+                    minWidth = 76.dp,
+                    minHeight = 76.dp,
+                ),
+        onClick = onClick,
     ) {
         Icon(imageVector = Icons.Filled.Add, contentDescription = "Add Expense")
     }

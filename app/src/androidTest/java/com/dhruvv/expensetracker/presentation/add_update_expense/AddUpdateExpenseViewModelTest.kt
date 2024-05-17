@@ -18,7 +18,6 @@ import javax.inject.Named
 
 @HiltAndroidTest
 class AddUpdateExpenseViewModelTest {
-
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
@@ -45,29 +44,31 @@ class AddUpdateExpenseViewModelTest {
     fun insertExpenseDetails_expectedExpenseListIncreasedByOne() {
         runBlocking {
             // arrange
-            val pizza = ExpenseData(
-                id = 1,
-                title = "Pizza",
-                description = "7 cheesy pizza",
-                amount = 235.60.toString(),
-                categoryId = Category.FOOD_CATEGORY.categoryId,
-                date = "2024-03-01",
-            )
+            val pizza =
+                ExpenseData(
+                    id = 1,
+                    title = "Pizza",
+                    description = "7 cheesy pizza",
+                    amount = 235.60.toString(),
+                    categoryId = Category.FOOD_CATEGORY.categoryId,
+                    date = "2024-03-01",
+                )
 
-            val pizza1 = ExpenseData(
-                id = 2,
-                title = "Pizza",
-                description = "7 cheesy pizza",
-                amount = 235.60.toString(),
-                categoryId = Category.FOOD_CATEGORY.categoryId,
-                date = "2024-03-01",
-            )
+            val pizza1 =
+                ExpenseData(
+                    id = 2,
+                    title = "Pizza",
+                    description = "7 cheesy pizza",
+                    amount = 235.60.toString(),
+                    categoryId = Category.FOOD_CATEGORY.categoryId,
+                    date = "2024-03-01",
+                )
 
             // act
             val isInserted = viewModel.addExpense(pizza).await()
             val isInsertedAgain = viewModel.addExpense(pizza1).await()
 
-            //assert
+            // assert
             assertThat(isInserted).isTrue()
             assertThat(isInsertedAgain).isTrue()
 
@@ -77,7 +78,6 @@ class AddUpdateExpenseViewModelTest {
             }
         }
     }
-
 
 //    @Test
 //    fun updateExpenseData_shouldReturnCorrectUpdateData() {
@@ -123,5 +123,4 @@ class AddUpdateExpenseViewModelTest {
 //            }
 //        }
 //    }
-
 }

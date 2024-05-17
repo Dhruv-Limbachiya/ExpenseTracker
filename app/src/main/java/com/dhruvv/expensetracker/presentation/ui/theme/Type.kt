@@ -15,38 +15,43 @@ val poppinsSemiBold = Font(resId = R.font.poppins_semibold)
 val poppinsBold = Font(resId = R.font.poppins_bold)
 
 val openSansRegular = Font(resId = R.font.open_sans)
-val openSansSemiBold= Font(resId = R.font.open_sans_semibold)
+val openSansSemiBold = Font(resId = R.font.open_sans_semibold)
 val openSansBold = Font(resId = R.font.open_sans_bold)
 val openSansExtraBold = Font(resId = R.font.open_sans_extrabold)
 val openSansCondensedBold = Font(resId = R.font.open_sans_condensed_bold)
 
 // font family
-val fontFamily = FontFamily(
-    poppinsRegular,
-    poppinsMedium,
-    poppinsSemiBold,
-    poppinsBold)
+val fontFamily =
+    FontFamily(
+        poppinsRegular,
+        poppinsMedium,
+        poppinsSemiBold,
+        poppinsBold,
+    )
 
-val openSansFontFamily = FontFamily(
-    openSansRegular,
-    openSansSemiBold,
-    openSansBold,
-    openSansExtraBold,
-    openSansCondensedBold)
+val openSansFontFamily =
+    FontFamily(
+        openSansRegular,
+        openSansSemiBold,
+        openSansBold,
+        openSansExtraBold,
+        openSansCondensedBold,
+    )
 
 val openSansBoldFontFamily = FontFamily(Font(R.font.open_sans_bold))
 
 // Set of Material typography styles to start with
-val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = openSansFontFamily,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    ),
-
-    /* Other default text styles to override
+val Typography =
+    Typography(
+        bodyLarge =
+            TextStyle(
+                fontFamily = openSansFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 16.sp,
+                lineHeight = 24.sp,
+                letterSpacing = 0.5.sp,
+            ),
+        /* Other default text styles to override
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
@@ -61,5 +66,5 @@ val Typography = Typography(
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp
     )
-    */
-)
+         */
+    )

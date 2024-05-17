@@ -10,12 +10,11 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ExpenseDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertExpense(expense: Expense) : Long
+    suspend fun insertExpense(expense: Expense): Long
 
     @Delete
-    suspend fun deleteExpense(expense: Expense) : Int
+    suspend fun deleteExpense(expense: Expense): Int
 
     @Query("SELECT * FROM expense")
     fun getAllExpenses(): Flow<List<Expense>>
@@ -27,6 +26,5 @@ interface ExpenseDao {
     fun getExpensesOfCurrentMonth(): Flow<Double?>
 
     @Query("SELECT SUM(amount) FROM expense WHERE strftime('%m', date) = :month")
-    fun getExpensesByMonth(month:String): Flow<Double?>
-
+    fun getExpensesByMonth(month: String): Flow<Double?>
 }

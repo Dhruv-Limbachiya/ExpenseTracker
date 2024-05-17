@@ -25,10 +25,11 @@ fun ExpenseTrackerAppBar(
     title: String,
     navigationIcon: @Composable (() -> Unit),
 ) {
-    TopAppBar(title = { 
-      Text(text = title, fontSize = 18.sp, fontFamily = FontFamily(Font(R.font.open_sans_bold,)) )
-    },
-        navigationIcon = navigationIcon
+    TopAppBar(
+        title = {
+            Text(text = title, fontSize = 18.sp, fontFamily = FontFamily(Font(R.font.open_sans_bold)))
+        },
+        navigationIcon = navigationIcon,
     )
 }
 
@@ -40,7 +41,7 @@ private fun ExpenseTrackerAppBarPreview() {
             Icon(
                 imageVector = Icons.Rounded.KeyboardArrowLeft,
                 contentDescription = "Back",
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.size(32.dp),
             )
         }
     })

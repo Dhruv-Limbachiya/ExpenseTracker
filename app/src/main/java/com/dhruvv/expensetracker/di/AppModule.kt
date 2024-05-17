@@ -22,25 +22,30 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
     @Singleton
     @Provides
     @Named("expense_tracker_db")
-    fun provideExpenseTrackerDB(@ApplicationContext context: Context): ExpenseTrackerDB {
-        return Room.databaseBuilder(context, ExpenseTrackerDB::class.java,ExpenseTrackerDB.DB_NAME).build()
+    fun provideExpenseTrackerDB(
+        @ApplicationContext context: Context,
+    ): ExpenseTrackerDB {
+        return Room.databaseBuilder(context, ExpenseTrackerDB::class.java, ExpenseTrackerDB.DB_NAME).build()
     }
 
     @Singleton
     @Provides
     @Named("expense_tracker_repository")
-    fun provideExpenseTrackerRepository(@Named("expense_tracker_db") expenseTrackerDB: ExpenseTrackerDB) : ExpenseRepository {
+    fun provideExpenseTrackerRepository(
+        @Named("expense_tracker_db") expenseTrackerDB: ExpenseTrackerDB,
+    ): ExpenseRepository {
         return IExpenseRepository(expenseTrackerDB)
     }
 
     @Singleton
     @Provides
     @Named("main_use_case")
-    fun provideUseCase(@Named("expense_tracker_repository") repository: ExpenseRepository) : UseCase {
+    fun provideUseCase(
+        @Named("expense_tracker_repository") repository: ExpenseRepository,
+    ): UseCase {
         return UseCase(
             getExpenses = GetExpenses(repository),
             addOrUpdateExpense = AddOrUpdateExpense(repository),

@@ -4,9 +4,9 @@ import com.dhruvv.expensetracker.data.db.entities.Expense
 import com.dhruvv.expensetracker.data.repositories.ExpenseRepository
 
 class RemoveExpense(
-    private var expenseRepository: ExpenseRepository
+    private var expenseRepository: ExpenseRepository,
 ) {
-    suspend operator fun invoke(expense: Expense){
+    suspend operator fun invoke(expense: Expense) {
         expenseRepository.deleteExpense(expense)
     }
 }
