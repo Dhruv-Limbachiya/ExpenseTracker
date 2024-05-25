@@ -68,8 +68,14 @@ jobs:
       - name: KtLint Format
         run: ./gradlew ktlintFormat
 
-      - name: Run tests
-        run: ./gradlew connectedAndroidTest
+      - name: Set up Android SDK
+        uses: google/android-actions@v2 # This action installs the Android SDK
+
+      - name: Run Tests
+        uses: EnricoMi/android-emulator-runner@v3 # Pre-built action to run emulator and tests
+        with:
+          api-level: 30 # Target API level for the emulator
+          script: ./gradlew connectedAndroidTest # Script to run your tests
 
        # This step executes the Gradle build process using the ./gradlew build command.
       - name: Build with Gradle
