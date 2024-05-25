@@ -73,13 +73,15 @@ jobs:
       - name: KtLint Format
         run: ./gradlew ktlintFormat
 
-      - name: Run integration test on emulator
-        uses: reactivecircus/android-emulator-runner@v2
+      # steps to run androidTest on the emulator
+      - name: Run integration tests on emulator (Android ${{ matrix.api-level }})
+        uses: reactivecircus/android-emulator-runner@v2 # GitHub Action used to run the emulator
         with:
-            api-level: ${{matrix.api-level}}
-            target: ${{matrix.target}}
-            arch: ${{matrix.arch}}
-            script: ./gradlew connectedAndroidTest
+          api-level: ${{ matrix.api-level }}  # API level for the emulator based on the job matrix
+          target: ${{ matrix.target }}        # build target for the emulator (e.g., google_apis)
+          arch: ${{ matrix.arch }}            # architecture for the emulator (e.g., x86_64)
+
+          script: ./gradlew connectedAndroidTest  # This line defines the script to run within the emulator (likely executes integration tests)
 
        # This step executes the Gradle build process using the ./gradlew build command.
       - name: Build with Gradle
