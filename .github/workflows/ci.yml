@@ -69,7 +69,7 @@ jobs:
         run: ./gradlew ktlintFormat
 
       - name: Run tests
-        run: ./gradlew connectedDebugAndroidTest
+        run: ./gradlew connectedAndroidTest
 
        # This step executes the Gradle build process using the ./gradlew build command.
       - name: Build with Gradle
