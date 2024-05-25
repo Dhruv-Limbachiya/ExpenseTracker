@@ -8,7 +8,7 @@ on: [ push ]
 jobs:
   build:
     # This specifies that the job will run on an Ubuntu virtual machine provided by GitHub Actions.
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     # This defines the steps that will be executed within the "build" job.
     steps:
@@ -68,14 +68,11 @@ jobs:
       - name: KtLint Format
         run: ./gradlew ktlintFormat
 
-      - name: Set up Android SDK
-        uses: google/android-actions@v2 # This action installs the Android SDK
-
-      - name: Run Tests
-        uses: EnricoMi/android-emulator-runner@v3 # Pre-built action to run emulator and tests
+      - name: Run integration test on emulator
+        uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30 # Target API level for the emulator
-          script: ./gradlew connectedAndroidTest # Script to run your tests
+            api-level: 30
+            script: ./gradlew createDebugCoverageReport --stacktrace
 
        # This step executes the Gradle build process using the ./gradlew build command.
       - name: Build with Gradle
