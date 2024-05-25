@@ -34,6 +34,38 @@ android {
                 "proguard-rules.pro",
             )
         }
+
+        // Loop through all configured build variants in the project
+        applicationVariants.all {
+            // Assign the current build variant to a variable for easier access
+            val variant = this
+            // Loop through all output files associated with the current build variant
+            variant.outputs
+                .map { it as com.android.build.gradle.internal.api.BaseVariantOutputImpl }
+                .forEach { output ->
+                    // Extract information about the current build variant
+                    // Name of the product flavor (empty string if none)
+                    val flavour = variant.flavorName
+                    // Name of the build type (e.g., 'debug' or 'release')
+                    val builtType = variant.buildType.name
+                    // Version name defined for the project
+                    val versionName = variant.versionName
+                    // Version code defined for the project
+                    val vCode = variant.versionCode
+
+                    // Construct a custom filename based on variant properties
+                    output.outputFileName =
+                        "ExpenseTracker-${flavour}-${builtType}-${versionName}(${vCode}).apk".replace(
+                            "-${flavour}",
+                            ""
+                        )
+
+                    // This line sets the 'outputFileName' property of the 'output' object
+                    // The 'output' object likely represents an individual APK file generated
+                    // for the current build variant. The value assigned is a string combining
+                    // several elements to create an informative filename.
+                }
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
