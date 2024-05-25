@@ -8,7 +8,7 @@ on: [ push ]
 jobs:
   build:
     # This specifies that the job will run on an Ubuntu virtual machine provided by GitHub Actions.
-    runs-on: macos-latest
+    runs-on: macos-13
     strategy:
       matrix:
         api-level: [ 30, 33 ]
