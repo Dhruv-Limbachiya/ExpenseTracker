@@ -77,8 +77,8 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
             api-level: ${{matrix.api-level}}
-            target: {{matrix.target}}
-            arch: {{matrix.arch}}
+            target: ${{matrix.target}}
+            arch: ${{matrix.arch}}
             script: ./gradlew connectedAndroidTest
 
        # This step executes the Gradle build process using the ./gradlew build command.
