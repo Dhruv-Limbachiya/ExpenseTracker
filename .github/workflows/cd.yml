@@ -87,7 +87,8 @@ jobs:
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
-          group: "tester-team"
+          groups: "tester-team"
           file:  ${{steps.sign_app.outputs.signedReleaseFile}}
+          releaseNotesFile: app/release/release_notes.txt
 
 
