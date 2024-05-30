@@ -54,7 +54,7 @@ android {
                     val vCode = variant.versionCode
 
                     // Construct a custom filename based on variant properties
-                    output.outputFileName = "ExpenseTracker-$flavour-$builtType-$versionName($vCode).apk".replace("-$flavour", "")
+                    output.outputFileName = "ExpenseTracker-$flavour-$builtType-$versionName($vCode).apk".replace("-$flavour", "-")
 
                     // This line sets the 'outputFileName' property of the 'output' object
                     // The 'output' object likely represents an individual APK file generated

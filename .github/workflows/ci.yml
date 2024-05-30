@@ -2,7 +2,8 @@
 name: ci
 
 # This workflow is triggered on the "push" event. This means it will run whenever there's a push to any branch in the repository.
-on: [ push ]
+on:
+  pull_request:
 
 # This defines a job named "build" that will be executed within the workflow.
 jobs:
