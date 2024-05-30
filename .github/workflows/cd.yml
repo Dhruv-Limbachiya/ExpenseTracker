@@ -1,0 +1,81 @@
+name: cd
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build and deploy apk to firebase app distribution
+    # This defines the steps that will be executed within the "build" job.
+    steps:
+      # This step uses the "actions/checkout@v4" action to clone the repository code into the runner's workspace.
+      - name: Checkout the repository code
+        uses: actions/checkout@v4
+
+      # This step prints a message to the workflow log indicating that the code has been cloned.
+      - run: echo " The ${{ github.repository }} repository has been cloned to the runner."
+
+
+      # This step uses the "actions/setup-java@v3" action to set up JDK 11 for building the project.
+      - name: set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          # This specifies the desired JDK version to be 17.
+          java-version: '17'
+          # This specifies the Java distribution to use (temurin by Red Hat).
+          distribution: 'temurin'
+          # This instructs the action to cache downloaded Gradle files for efficiency.
+          cache: gradle
+
+        # This line uses the `actions/cache@v2` GitHub Action.
+      - uses: actions/cache@v2
+
+        # This section defines the configuration for the caching action:
+        with:
+          # This defines the paths to be cached. Here, we're caching two directories:
+          #  - ./gradle/: This likely stores downloaded Gradle files (libraries, plugins).
+          #  - ~/gradle/wrapper: This might contain the Gradle wrapper used for building the project.
+          path: |
+            ./gradle/
+            ~/gradle/wrapper
+
+          # This defines a unique cache key based on:
+          #  - ${{runner.os}}: The operating system the workflow is running on (e.g., ubuntu-latest).
+          #  - build-: A static string indicating the build stage being cached.
+          #  - ${{github.sha}}: The SHA of the commit that triggered the workflow.
+          # This combination ensures the cache is specific to the build environment and code version.
+          key: ${{ runner.os }}-build-${{ github.sha }}
+
+          # This defines restore keys for retrieving cached data from previous builds. Here, we use a wildcard:
+          #  - ${{ runner.os }}-build : This matches any cache key that starts with "build-" and the runner's OS.
+          # This allows restoring the cache from previous builds with the same operating system,
+          # as long as the project hasn't changed significantly (assuming the cache key format remains consistent).
+          restore-keys: |
+            ${{ runner.os }}-build
+
+
+        # This step grants execute permission to the gradlew script for running the build process.
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - uses: r0adkll/sign-android-release@v1
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      - name: upload artifact to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          app: ${{ secrets.FIREBASE_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+          group: "tester-team"
+          file: app/release/app-release.aab
+
+
