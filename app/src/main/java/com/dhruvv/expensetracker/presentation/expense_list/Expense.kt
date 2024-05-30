@@ -50,11 +50,11 @@ import com.dhruvv.expensetracker.presentation.ui.theme.purplePrimary
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExpenseItem(
-    modifier: Modifier = Modifier, expenseData: ExpenseData,
+    modifier: Modifier = Modifier,
+    expenseData: ExpenseData,
     onExpenseItemClick: (Int) -> Unit,
-    onExpenseItemSwiped: (ExpenseData) -> Unit
+    onExpenseItemSwiped: (ExpenseData) -> Unit,
 ) {
-
     var isSwiped by remember {
         mutableStateOf(false)
     }
@@ -63,72 +63,76 @@ fun ExpenseItem(
         mutableStateOf(true)
     }
 
-    val dismissState = rememberSwipeToDismissBoxState(
-        confirmValueChange = { dismissValue ->
-            if (dismissValue == SwipeToDismissBoxValue.EndToStart) {
-                isSwiped = true
-                show = false
-                onExpenseItemSwiped(expenseData)
-                true
-            } else {
-                isSwiped = false
-                false
-            }
+    val dismissState =
+        rememberSwipeToDismissBoxState(
+            confirmValueChange = { dismissValue ->
+                if (dismissValue == SwipeToDismissBoxValue.EndToStart) {
+                    isSwiped = true
+                    show = false
+                    onExpenseItemSwiped(expenseData)
+                    true
+                } else {
+                    isSwiped = false
+                    false
+                }
+            },
+        )
 
-        }
-    )
-
-
-    AnimatedVisibility(visible = show,exit = fadeOut(spring()), modifier = modifier) {
-        SwipeToDismissBox(state = dismissState,
+    AnimatedVisibility(visible = show, exit = fadeOut(spring()), modifier = modifier) {
+        SwipeToDismissBox(
+            state = dismissState,
             backgroundContent = {
                 val color by animateColorAsState(
                     targetValue =
-                    when (dismissState.targetValue) {
-                        SwipeToDismissBoxValue.EndToStart -> Color.Red
-                        else -> Color.Transparent
-                    }, label = ""
+                        when (dismissState.targetValue) {
+                            SwipeToDismissBoxValue.EndToStart -> Color.Red
+                            else -> Color.Transparent
+                        },
+                    label = "",
                 )
 
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .shadow(shape = RoundedCornerShape(20.dp), elevation = 2.dp)
-                        .background(color = color),
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .shadow(shape = RoundedCornerShape(20.dp), elevation = 2.dp)
+                            .background(color = color),
                 ) {
                     Icon(
-                        modifier = Modifier
-                            .padding(end = 10.dp)
-                            .align(Alignment.CenterEnd),
+                        modifier =
+                            Modifier
+                                .padding(end = 10.dp)
+                                .align(Alignment.CenterEnd),
                         imageVector = Icons.Default.Delete,
-                        contentDescription = "Delete Expense"
+                        contentDescription = "Delete Expense",
                     )
                 }
             },
             content = {
                 Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .testTag("Expense : ${expenseData.id}"),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .testTag("Expense : ${expenseData.id}"),
                     colors = CardDefaults.cardColors(containerColor = mediumGray),
-                    shape = RoundedCornerShape(20.dp)
-
+                    shape = RoundedCornerShape(20.dp),
                 ) {
                     Row(
                         modifier = Modifier.clickable { onExpenseItemClick(expenseData.id) },
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Box(
-                            modifier = Modifier
-                                .padding(start = 8.dp, top = 8.dp, bottom = 8.dp)
-                                .shadow(shape = RoundedCornerShape(18.dp), elevation = 2.dp)
-                                .background(purplePrimary)
-                                .padding(12.dp)
+                            modifier =
+                                Modifier
+                                    .padding(start = 8.dp, top = 8.dp, bottom = 8.dp)
+                                    .shadow(shape = RoundedCornerShape(18.dp), elevation = 2.dp)
+                                    .background(purplePrimary)
+                                    .padding(12.dp),
                         ) {
                             Image(
                                 imageVector = expenseData.getIcon(),
                                 colorFilter = ColorFilter.tint(color = Color.White),
-                                contentDescription = "Icon"
+                                contentDescription = "Icon",
                             )
                         }
 
@@ -139,13 +143,13 @@ fun ExpenseItem(
                                 .weight(1f)
                                 .padding(end = 10.dp),
                             category = expenseData.getCategory(),
-                            description = expenseData.description.toString()
+                            description = expenseData.description.toString(),
                         )
 
                         ExpenseAmount(Modifier.padding(end = 30.dp), expenseData.amount)
                     }
                 }
-            }
+            },
         )
     }
 
@@ -159,31 +163,38 @@ fun ExpenseItem(
 }
 
 @Composable
-fun ExpenseAmount(modifier: Modifier = Modifier, amount: String) {
+fun ExpenseAmount(
+    modifier: Modifier = Modifier,
+    amount: String,
+) {
     Text(
         modifier = modifier,
         text = "₹ $amount",
         color = Color.Black,
-        fontFamily = openSansBoldFontFamily
+        fontFamily = openSansBoldFontFamily,
     )
 }
 
 @Composable
-fun ExpenseTitleDescription(modifier: Modifier = Modifier, category: String, description: String) {
+fun ExpenseTitleDescription(
+    modifier: Modifier = Modifier,
+    category: String,
+    description: String,
+) {
     Column(modifier = modifier) {
         Text(
             text = category,
             color = Color.Black,
             fontFamily = openSansBoldFontFamily,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
         )
         Text(
             text = description,
             color = Color.Gray,
             fontFamily = openSansBoldFontFamily,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }
@@ -192,16 +203,18 @@ fun ExpenseTitleDescription(modifier: Modifier = Modifier, category: String, des
 @Composable
 private fun ExpenseItemPreview() {
     ExpenseItem(
-        expenseData = ExpenseData(
-            id = 1,
-            title = "Grocery Shopping",
-            description = "Bought essentials Bought essentials Bought essentials",
-            amount = "75.50",
-            categoryId = 3, // Assuming this corresponds to the Food category
-            date = "29-02-2024"
-        ), onExpenseItemClick = {
-
-        }, onExpenseItemSwiped = {
-
-        })
+        expenseData =
+            ExpenseData(
+                id = 1,
+                title = "Grocery Shopping",
+                description = "Bought essentials Bought essentials Bought essentials",
+                amount = "75.50",
+                categoryId = 3,
+                date = "29-02-2024",
+            ),
+        onExpenseItemClick = {
+        },
+        onExpenseItemSwiped = {
+        },
+    )
 }

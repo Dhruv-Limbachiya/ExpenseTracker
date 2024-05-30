@@ -22,18 +22,22 @@ import com.dhruvv.expensetracker.R
 import com.dhruvv.expensetracker.presentation.ui.theme.openSansBoldFontFamily
 
 @Composable
-fun NoExpenseFound(modifier: Modifier = Modifier,showAddExpenseButton: Boolean = true ,onAddExpenseButtonClicked: () -> Unit) {
-    val noRecordFoundComposition by rememberLottieComposition(spec= LottieCompositionSpec.RawRes(R.raw.no_record_found))
+fun NoExpenseFound(
+    modifier: Modifier = Modifier,
+    showAddExpenseButton: Boolean = true,
+    onAddExpenseButtonClicked: () -> Unit,
+) {
+    val noRecordFoundComposition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.no_record_found))
     val progress by animateLottieCompositionAsState(noRecordFoundComposition, iterations = LottieConstants.IterateForever)
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         LottieAnimation(composition = noRecordFoundComposition, progress = { progress })
         Text(text = "No Expense Found!", fontFamily = openSansBoldFontFamily)
         Spacer(modifier = Modifier.height(4.dp))
-        if(showAddExpenseButton){
+        if (showAddExpenseButton) {
             OutlinedButton(onClick = onAddExpenseButtonClicked) {
                 Text(text = "Add Expense")
             }
@@ -45,6 +49,5 @@ fun NoExpenseFound(modifier: Modifier = Modifier,showAddExpenseButton: Boolean =
 @Composable
 private fun NoExpenseFoundPreview() {
     NoExpenseFound {
-
     }
 }

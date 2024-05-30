@@ -18,10 +18,9 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+
 @HiltAndroidTest
 class NavigationTest {
-
-
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
@@ -45,7 +44,6 @@ class NavigationTest {
         hiltRule.inject()
     }
 
-
     @Test
     fun navHost_verifyStartDestination() {
         composeTestRule.onNodeWithTag("Dashboard").assertIsDisplayed()
@@ -61,7 +59,6 @@ class NavigationTest {
     fun navHost_onExpenseItemClick_navigateToAddUpdateExpenseScreen() {
         composeTestRule.onNodeWithText("View all").performClick()
         composeTestRule.onNodeWithTag("ExpenseBack").performClick()
-        composeTestRule.onNodeWithContentDescription("AddUpdateScreen").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("Dashboard").assertIsDisplayed()
     }
-
 }

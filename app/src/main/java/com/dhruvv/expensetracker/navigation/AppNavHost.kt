@@ -15,12 +15,12 @@ import com.dhruvv.expensetracker.presentation.main.DashboardScreen
 @Composable
 fun AppNavHost(
     modifier: Modifier = Modifier,
-    navHostController: NavHostController = rememberNavController()
+    navHostController: NavHostController = rememberNavController(),
 ) {
     NavHost(
         navController = navHostController,
         modifier = modifier,
-        startDestination = Destination.DashboardScreen.route
+        startDestination = Destination.DashboardScreen.route,
     ) {
         composable(route = Destination.DashboardScreen.route) {
             DashboardScreen {
@@ -29,13 +29,16 @@ fun AppNavHost(
             }
         }
 
-        composable(route = "${Destination.AddUpdateExpenseScreen.route}?id={expenseId}",
-            arguments = listOf(
-                navArgument(name = "expenseId") {
-                    type = NavType.IntType
-                    defaultValue = -1
-                }
-            )) { backStackEntry ->
+        composable(
+            route = "${Destination.AddUpdateExpenseScreen.route}?id={expenseId}",
+            arguments =
+                listOf(
+                    navArgument(name = "expenseId") {
+                        type = NavType.IntType
+                        defaultValue = -1
+                    },
+                ),
+        ) { backStackEntry ->
             val expenseId = backStackEntry.arguments?.getInt("expenseId") ?: -1
             AddUpdateExpenseScreen(expenseId = expenseId) {
                 navHostController.popBackStack()
@@ -44,7 +47,7 @@ fun AppNavHost(
 
         composable(route = Destination.ExpenseListScreen.route) {
             ExpenseListScreen(navigateToAddUpdateExpenseScreen = { expenseId ->
-                navHostController.navigate("${Destination.AddUpdateExpenseScreen.route}?id=${expenseId}")
+                navHostController.navigate("${Destination.AddUpdateExpenseScreen.route}?id=$expenseId")
             }, onBackPress = {
                 navHostController.popBackStack()
             })

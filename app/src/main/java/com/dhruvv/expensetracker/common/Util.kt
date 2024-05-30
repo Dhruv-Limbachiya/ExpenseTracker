@@ -11,12 +11,13 @@ import java.util.Date
 import java.util.Locale
 
 fun Long.toDate(): String {
-    val formattedDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        LocalDate.now().toString()
-    } else {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        dateFormat.format(this)
-    }
+    val formattedDate =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            LocalDate.now().toString()
+        } else {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            dateFormat.format(this)
+        }
 
     return formattedDate ?: getCalendarDate()
 }
@@ -32,7 +33,7 @@ fun String.toddMMMyyyy(): String {
 fun getCalendarDate(): String {
     val calendar = Calendar.getInstance()
     val year = calendar.get(Calendar.YEAR)
-    val month = calendar.get(Calendar.MONTH) + 1  // Months are 0-indexed
+    val month = calendar.get(Calendar.MONTH) + 1 // Months are 0-indexed
     val day = calendar.get(Calendar.DAY_OF_MONTH)
 
     return String.format("%04d-%02d-%02d", year, month, day)
@@ -50,14 +51,13 @@ fun Expense.toExpenseData(): ExpenseData {
         description = description,
         amount = amount.toString(),
         categoryId = categoryId,
-        date = date
+        date = date,
     )
 }
 
-
 fun String.isYesterday(): Boolean {
     // Parse the string date
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd",Locale.getDefault())
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     val parsedDate = dateFormat.parse(this)
 
     // Get Calendar instances for today and the parsed date
@@ -71,7 +71,7 @@ fun String.isYesterday(): Boolean {
     // Check if parsed date is yesterday
     todayCalendar.add(Calendar.DAY_OF_YEAR, -1) // Move to yesterday
     return todayCalendar.get(Calendar.YEAR) == parsedCalendar.get(Calendar.YEAR) &&
-            todayCalendar.get(Calendar.DAY_OF_YEAR) == parsedCalendar.get(Calendar.DAY_OF_YEAR)
+        todayCalendar.get(Calendar.DAY_OF_YEAR) == parsedCalendar.get(Calendar.DAY_OF_YEAR)
 }
 
 fun getYesterdayDate(): String {
@@ -81,5 +81,3 @@ fun getYesterdayDate(): String {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     return dateFormat.format(calendar.time)
 }
-
-

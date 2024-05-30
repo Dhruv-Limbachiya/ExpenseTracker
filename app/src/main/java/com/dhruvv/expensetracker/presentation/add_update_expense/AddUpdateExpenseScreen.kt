@@ -85,7 +85,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 private const val TAG = "AddUpdateExpenseScreen"
 
 @Composable
@@ -93,7 +92,7 @@ fun AddUpdateExpenseScreen(
     modifier: Modifier = Modifier,
     viewModel: AddUpdateExpenseViewModel = hiltViewModel(),
     expenseId: Int = -1,
-    onBack: () -> Unit
+    onBack: () -> Unit,
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -106,9 +105,9 @@ fun AddUpdateExpenseScreen(
     }
 
     LaunchedEffect(key1 = Unit) {
-        if(expenseId != -1) {
+        if (expenseId != -1) {
             viewModel.getExpense(expenseId)
-        }else{
+        } else {
             viewModel.resetState()
         }
     }
@@ -127,7 +126,7 @@ fun AddUpdateExpenseScreen(
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowLeft,
                             contentDescription = "Back",
-                            modifier = Modifier.size(32.dp)
+                            modifier = Modifier.size(32.dp),
                         )
                     }
                 },
@@ -135,11 +134,12 @@ fun AddUpdateExpenseScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                modifier = Modifier
-                    .defaultMinSize(
-                        minWidth = 76.dp,
-                        minHeight = 76.dp,
-                    ),
+                modifier =
+                    Modifier
+                        .defaultMinSize(
+                            minWidth = 76.dp,
+                            minHeight = 76.dp,
+                        ),
                 onClick = {
                     coroutineScope.launch {
                         if (isValidDetails(viewModel, snackBarHostState, coroutineScope)) {
@@ -153,12 +153,12 @@ fun AddUpdateExpenseScreen(
                             }
                         }
                     }
-                }) {
+                },
+            ) {
                 Icon(imageVector = Icons.Rounded.AddTask, contentDescription = "Add Expense")
             }
         },
-        floatingActionButtonPosition = FabPosition.End
-
+        floatingActionButtonPosition = FabPosition.End,
     ) { innerPadding ->
         AddUpdateExpenseForm(modifier = modifier.padding(innerPadding), viewModel = viewModel)
     }
@@ -167,15 +167,15 @@ fun AddUpdateExpenseScreen(
 suspend fun isValidDetails(
     viewModel: AddUpdateExpenseViewModel,
     snackBarHostState: SnackbarHostState,
-    coroutineScope: CoroutineScope
+    coroutineScope: CoroutineScope,
 ) = coroutineScope.async {
     if (viewModel.addExpenseState.value.expenseData.amount.isEmpty()) {
         snackBarHostState.showSnackbar("Amount can't be empty")
         return@async false
-    } else if(viewModel.addExpenseState.value.expenseData.amount.toInt() < 0) {
+    } else if (viewModel.addExpenseState.value.expenseData.amount.toInt() < 0) {
         snackBarHostState.showSnackbar("Negative values are not allowed!")
         return@async false
-    }else if(viewModel.addExpenseState.value.expenseData.description.isNullOrEmpty()) {
+    } else if (viewModel.addExpenseState.value.expenseData.description.isNullOrEmpty()) {
         snackBarHostState.showSnackbar("Description can't be empty")
         return@async false
     }
@@ -186,9 +186,8 @@ suspend fun isValidDetails(
 fun saveExpense(
     viewModel: AddUpdateExpenseViewModel,
     coroutineScope: CoroutineScope,
-    onSaved: (Boolean) -> Unit = {}
+    onSaved: (Boolean) -> Unit = {},
 ) {
-
     val expenseData = viewModel.addExpenseState.value.expenseData
 
     coroutineScope.launch(Dispatchers.IO) {
@@ -203,23 +202,24 @@ fun saveExpense(
 @Composable
 fun AddUpdateExpenseForm(
     modifier: Modifier = Modifier,
-    viewModel: AddUpdateExpenseViewModel
+    viewModel: AddUpdateExpenseViewModel,
 ) {
-
     val amount = viewModel.addExpenseState.value.expenseData.amount
     val description = viewModel.addExpenseState.value.expenseData.description ?: ""
 
     val categories = viewModel.categories
     val category = viewModel.addExpenseState.value.expenseData.getCategory()
-
+    val regex = Regex("[^\\d]+")
 
     Column {
         AmountTextField(
             modifier = modifier,
             amount = if (amount.isEmpty()) "" else amount.toString(),
             onAmountChange = { changedAmt ->
-                viewModel.setExpenseAmount(changedAmt)
-            }
+                if (!regex.matches(changedAmt)) {
+                    viewModel.setExpenseAmount(changedAmt)
+                }
+            },
         )
 
         ExpenseCategory(
@@ -228,14 +228,16 @@ fun AddUpdateExpenseForm(
             currentExpenseType = category,
             onExpenseTypeChange = { category ->
                 viewModel.setExpenseCategory(category)
-            })
+            },
+        )
 
         ExpenseDescriptionField(
             modifier = modifier,
             description = description,
             onDescriptionChange = {
                 viewModel.setExpenseDescription(it)
-            })
+            },
+        )
     }
 }
 
@@ -243,9 +245,8 @@ fun AddUpdateExpenseForm(
 fun AmountTextField(
     modifier: Modifier = Modifier,
     amount: String,
-    onAmountChange: (String) -> Unit
+    onAmountChange: (String) -> Unit,
 ) {
-
     // initialize focus reference to be able to request focus programmatically
     val focusRequester by remember { mutableStateOf(FocusRequester()) }
 
@@ -254,23 +255,25 @@ fun AmountTextField(
     }
 
     TextField(
-        modifier = modifier.testTag("amount_text_field")
-            .fillMaxWidth()
-            .height(90.dp)
-            .padding(horizontal = 16.dp)
-            .focusRequester(focusRequester = focusRequester),
+        modifier =
+            modifier.testTag("amount_text_field")
+                .fillMaxWidth()
+                .height(90.dp)
+                .padding(horizontal = 16.dp)
+                .focusRequester(focusRequester = focusRequester),
         textStyle = TextStyle(fontSize = 40.sp, fontFamily = openSansBoldFontFamily),
-        value = if (amount == "") {
-            ""
-        } else {
-            amount
-        },
+        value =
+            if (amount == "") {
+                ""
+            } else {
+                amount
+            },
         label = {
             Text(
                 text = "Amount",
                 fontFamily = openSansBoldFontFamily,
                 fontSize = 14.sp,
-                color = Color.Gray
+                color = Color.Gray,
             )
         },
         placeholder = {
@@ -278,7 +281,7 @@ fun AmountTextField(
                 text = "0",
                 fontFamily = openSansBoldFontFamily,
                 fontSize = 40.sp,
-                color = Color.Gray
+                color = Color.Gray,
             )
         },
         onValueChange = { onAmountChange(it) },
@@ -287,7 +290,7 @@ fun AmountTextField(
                 text = "₹",
                 fontSize = 30.sp,
                 fontFamily = openSansBoldFontFamily,
-                modifier = Modifier.padding(top = 12.dp, end = 8.dp)
+                modifier = Modifier.padding(top = 12.dp, end = 8.dp),
             )
         },
         suffix = {
@@ -295,20 +298,22 @@ fun AmountTextField(
                 text = "INR",
                 fontFamily = openSansBoldFontFamily,
                 color = Color.Gray,
-                modifier = Modifier.padding(top = 24.dp)
+                modifier = Modifier.padding(top = 24.dp),
             )
         },
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Decimal,
-            imeAction = ImeAction.Done
-        ),
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = Color.Transparent,
-            unfocusedContainerColor = Color.Transparent,
-            focusedIndicatorColor = Color.Black,
-            focusedLabelColor = Color.Gray,
-            cursorColor = Color.Black
-        ),
+        keyboardOptions =
+            KeyboardOptions(
+                keyboardType = KeyboardType.Decimal,
+                imeAction = ImeAction.Done,
+            ),
+        colors =
+            TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedIndicatorColor = Color.Black,
+                focusedLabelColor = Color.Gray,
+                cursorColor = Color.Black,
+            ),
     )
 }
 
@@ -317,7 +322,7 @@ fun ExpenseCategory(
     modifier: Modifier = Modifier,
     categories: List<Category>,
     currentExpenseType: String,
-    onExpenseTypeChange: (Category) -> Unit
+    onExpenseTypeChange: (Category) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -328,28 +333,29 @@ fun ExpenseCategory(
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.Top,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 32.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 32.dp),
     ) {
         Column {
             Text(
                 text = context.getString(R.string.expense_made_for),
                 fontFamily = openSansBoldFontFamily,
                 fontSize = 14.sp,
-                color = Color.Gray
+                color = Color.Gray,
             )
 
             Text(
                 text = currentExpenseType,
                 fontFamily = openSansBoldFontFamily,
-                modifier = Modifier.padding(top = 6.dp)
+                modifier = Modifier.padding(top = 6.dp),
             )
 
             DropdownMenu(
                 modifier = Modifier.fillMaxWidth(0.7f),
                 expanded = expanded,
-                onDismissRequest = { expanded = false }
+                onDismissRequest = { expanded = false },
             ) {
                 categories.forEach { category ->
                     DropdownMenuItem(
@@ -357,20 +363,21 @@ fun ExpenseCategory(
                         onClick = {
                             onExpenseTypeChange(category)
                             expanded = false // Close menu after selection
-                        }
+                        },
                     )
                 }
             }
         }
 
         Box(
-            modifier = Modifier
-                .size(46.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .background(lightGray)
-                .clickable {
-                    expanded = expanded.not()
-                },
+            modifier =
+                Modifier
+                    .size(46.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(lightGray)
+                    .clickable {
+                        expanded = expanded.not()
+                    },
             contentAlignment = Alignment.Center,
         ) {
             Icon(
@@ -381,44 +388,45 @@ fun ExpenseCategory(
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExpenseDescriptionField(
     modifier: Modifier = Modifier,
     description: String,
-    onDescriptionChange: (String) -> Unit
+    onDescriptionChange: (String) -> Unit,
 ) {
-
     val context = LocalContext.current
 
     val interactionSource = remember { MutableInteractionSource() }
 
     Column {
         Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
             text = context.getString(R.string.expense_made_for),
             fontFamily = openSansBoldFontFamily,
             fontSize = 14.sp,
-            color = Color.Gray
+            color = Color.Gray,
         )
 
         Spacer(modifier = Modifier.height(6.dp))
 
         BasicTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
             value = description,
             textStyle = TextStyle(fontFamily = openSansBoldFontFamily),
             onValueChange = { onDescriptionChange(it) },
             maxLines = 5,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Done
-            ),
+            keyboardOptions =
+                KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done,
+                ),
             decorationBox = {
                 TextFieldDefaults.DecorationBox(
                     value = description,
@@ -435,12 +443,13 @@ fun ExpenseDescriptionField(
                     contentPadding = PaddingValues(0.dp),
                     visualTransformation = VisualTransformation.None,
                     interactionSource = interactionSource,
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
-                    )
+                    colors =
+                        TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                        ),
                 )
             },
         )
@@ -451,7 +460,7 @@ fun ExpenseDescriptionField(
 fun NumPad(
     modifier: Modifier = Modifier,
     onValueChanged: (String) -> Unit,
-    buttonModifier: Modifier = Modifier
+    buttonModifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
 
@@ -468,7 +477,7 @@ fun NumPad(
                 textStyle = buttonTextStyle,
                 number = number,
                 shape = CircleShape,
-                listener = clickedListener
+                listener = clickedListener,
             )
         },
         leftAuxButton = { _ ->
@@ -477,7 +486,7 @@ fun NumPad(
                 textStyle = buttonTextStyle,
                 shape = CircleShape,
                 imageVector = Icons.AutoMirrored.Rounded.Backspace,
-                clicked = { Toast.makeText(context, "Triggered", Toast.LENGTH_SHORT).show() }
+                clicked = { Toast.makeText(context, "Triggered", Toast.LENGTH_SHORT).show() },
             )
         },
         rightAuxButton = { clickedListener ->
@@ -486,23 +495,21 @@ fun NumPad(
                 textStyle = buttonTextStyle,
                 imageVector = Icons.Rounded.CheckCircleOutline,
                 shape = CircleShape,
-                clicked = { clickedListener.onRightAuxButtonClicked() }
+                clicked = { clickedListener.onRightAuxButtonClicked() },
             )
         },
-        listener = object : NumberKeyboardListener {
-            override fun onUpdated(data: NumberKeyboardData) {
-                onValueChanged(data.int.toString())
-            }
-        }
+        listener =
+            object : NumberKeyboardListener {
+                override fun onUpdated(data: NumberKeyboardData) {
+                    onValueChanged(data.int.toString())
+                }
+            },
     )
 }
-
 
 @Preview(showSystemUi = true, device = Devices.PIXEL_4)
 @Composable
 private fun AddUpdateExpenseFormPreview() {
-    AddUpdateExpenseScreen() {
-
+    AddUpdateExpenseScreen {
     }
 }
-

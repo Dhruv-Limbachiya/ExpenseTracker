@@ -43,9 +43,9 @@ import com.dhruvv.expensetracker.common.formatDoubleWithCommas
 import com.dhruvv.expensetracker.data.db.entities.Expense
 import com.dhruvv.expensetracker.presentation.common.ExpenseTrackerAppBar
 import com.dhruvv.expensetracker.presentation.expense_list.ExpenseList
+import com.dhruvv.expensetracker.presentation.expense_list.NoExpenseFound
 import com.dhruvv.expensetracker.presentation.ui.theme.lightGray
 import com.dhruvv.expensetracker.presentation.ui.theme.openSansBoldFontFamily
-import com.dhruvv.expensetracker.presentation.expense_list.NoExpenseFound
 
 @Composable
 fun Dashboard(
@@ -68,7 +68,7 @@ fun Dashboard(
                         Icon(
                             imageVector = Icons.Rounded.Dashboard,
                             contentDescription = "Back",
-                            modifier = Modifier.size(32.dp)
+                            modifier = Modifier.size(32.dp),
                         )
                     }
                 },
@@ -76,12 +76,13 @@ fun Dashboard(
         },
     ) { innerPaddingValues ->
         Column(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(innerPaddingValues),
+            modifier =
+                modifier
+                    .fillMaxWidth()
+                    .padding(innerPaddingValues),
             verticalArrangement = Arrangement.Center,
         ) {
-            TotalExpense(modifier = modifier,totalSpent)
+            TotalExpense(modifier = modifier, totalSpent)
 
             Spacer(modifier = Modifier.height(30.dp))
 
@@ -91,13 +92,17 @@ fun Dashboard(
 }
 
 @Composable
-fun TotalExpense(modifier: Modifier = Modifier, totalSpent: Double) {
+fun TotalExpense(
+    modifier: Modifier = Modifier,
+    totalSpent: Double,
+) {
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(180.dp)
-            .padding(top = 16.dp)
-            .padding(horizontal = 18.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .height(180.dp)
+                .padding(top = 16.dp)
+                .padding(horizontal = 18.dp),
         shape = RoundedCornerShape(28),
         colors = CardDefaults.cardColors(containerColor = Color.Black),
     ) {
@@ -106,71 +111,89 @@ fun TotalExpense(modifier: Modifier = Modifier, totalSpent: Double) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
-                modifier = Modifier
-                    .padding(start = 30.dp, top = 16.dp)
-                    .size(24.dp),
+                modifier =
+                    Modifier
+                        .padding(start = 30.dp, top = 16.dp)
+                        .size(24.dp),
                 painter = painterResource(id = R.drawable.ic_rupee_symbol_vector),
                 colorFilter = ColorFilter.tint(color = Color.White),
                 contentDescription = "Rupee",
-                )
+            )
 
             Text(
-                modifier = modifier
-                    .padding(start = 12.dp)
-                    .weight(1f),
-                text = totalSpent.formatDoubleWithCommas(), fontFamily = openSansBoldFontFamily, fontSize = 42.sp, color = Color.White, style = TextStyle(platformStyle = PlatformTextStyle(
-                    includeFontPadding = false
-                )
-                )
+                modifier =
+                    modifier
+                        .padding(start = 12.dp)
+                        .weight(1f),
+                text = totalSpent.formatDoubleWithCommas(),
+                fontFamily = openSansBoldFontFamily,
+                fontSize = 42.sp,
+                color = Color.White,
+                style =
+                    TextStyle(
+                        platformStyle =
+                            PlatformTextStyle(
+                                includeFontPadding = false,
+                            ),
+                    ),
             )
 
             Text(
                 text = "INR",
                 fontFamily = openSansBoldFontFamily,
                 color = Color.Gray,
-                modifier = Modifier.padding(top = 24.dp, end = 36.dp)
+                modifier = Modifier.padding(top = 24.dp, end = 36.dp),
             )
         }
     }
 }
 
 @Composable
-fun Expenses(modifier: Modifier=Modifier, expenses: List<Expense>,onViewAllClicked: () -> Unit) {
-
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 18.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+fun Expenses(
+    modifier: Modifier = Modifier,
+    expenses: List<Expense>,
+    onViewAllClicked: () -> Unit,
+) {
+    Row(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 18.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
         Text(
             text = "All Expenses",
             fontFamily = openSansBoldFontFamily,
         )
         Box(
-            modifier = Modifier
-                .shadow(shape = RoundedCornerShape(20.dp), elevation = 1.dp)
-                .background(lightGray)
+            modifier =
+                Modifier
+                    .shadow(shape = RoundedCornerShape(20.dp), elevation = 1.dp)
+                    .background(lightGray),
         ) {
             Text(
-                modifier = Modifier
-                    .padding(horizontal = 10.dp, vertical = 4.dp)
-                    .clickable {
-                        onViewAllClicked()
-                    },
+                modifier =
+                    Modifier
+                        .padding(horizontal = 10.dp, vertical = 4.dp)
+                        .clickable {
+                            onViewAllClicked()
+                        },
                 text = stringResource(R.string.text_view_all),
                 fontFamily = openSansBoldFontFamily,
                 color = Color.Gray,
-                fontSize = 12.sp
+                fontSize = 12.sp,
             )
         }
     }
 
-    if(expenses.isEmpty()) {
+    if (expenses.isEmpty()) {
         NoExpenseFound(modifier = modifier, showAddExpenseButton = false, onAddExpenseButtonClicked = { })
     } else {
         ExpenseList(
             expenses = expenses,
             showTillYesterday = true,
             onExpenseItemClick = {},
-            onExpenseItemSwipeToDelete = {}
+            onExpenseItemSwipeToDelete = {},
         )
     }
 }
@@ -178,6 +201,5 @@ fun Expenses(modifier: Modifier=Modifier, expenses: List<Expense>,onViewAllClick
 @Preview(showSystemUi = true)
 @Composable
 private fun DashboardPreview() {
-    Dashboard() {}
+    Dashboard {}
 }
-
