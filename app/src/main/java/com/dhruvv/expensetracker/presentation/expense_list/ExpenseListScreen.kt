@@ -21,17 +21,16 @@ import com.dhruvv.expensetracker.presentation.dashboard.DashboardViewModel
 
 @Composable
 fun ExpenseListScreen(
-    modifier: Modifier = Modifier.semantics { contentDescription = "ExpenseListScreen" },
+    modifier: Modifier = Modifier,
     viewModel: DashboardViewModel = hiltViewModel(),
     navigateToAddUpdateExpenseScreen: (Int) -> Unit,
-    onBackPress: () -> Unit
+    onBackPress: () -> Unit,
 ) {
-
     val context = LocalContext.current
     val expenses = viewModel.dashboardState.value.expenses
 
     Scaffold(
-        modifier = modifier,
+        modifier = Modifier.semantics { contentDescription = "ExpenseListScreen" },
         snackbarHost = { },
         topBar = {
             ExpenseTrackerAppBar(
@@ -41,22 +40,30 @@ fun ExpenseListScreen(
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowLeft,
                             contentDescription = "Back",
-                            modifier = Modifier.size(32.dp)
+                            modifier = Modifier.size(32.dp),
                         )
                     }
                 },
             )
-        }
+        },
     ) { innerPadding ->
 
-        if(expenses.isEmpty()) {
+        if (expenses.isEmpty()) {
             NoExpenseFound(modifier = modifier, onAddExpenseButtonClicked = {
                 navigateToAddUpdateExpenseScreen(-1)
             })
         } else {
-            ExpenseList(modifier = Modifier.padding(innerPadding), expenses = expenses, onExpenseItemClick = navigateToAddUpdateExpenseScreen, onExpenseItemSwipeToDelete = {
-                viewModel.deleteExpense(it)
-            })
+            ExpenseList(
+                modifier =
+                    Modifier.padding(
+                        innerPadding,
+                    ),
+                expenses = expenses,
+                onExpenseItemClick = navigateToAddUpdateExpenseScreen,
+                onExpenseItemSwipeToDelete = {
+                    viewModel.deleteExpense(it)
+                },
+            )
         }
     }
 }

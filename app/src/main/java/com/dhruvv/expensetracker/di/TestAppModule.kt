@@ -23,10 +23,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object TestAppModule {
-
     @Provides
     @Named("expense_tracker_test_db")
-    fun provideInMemoryDB(@ApplicationContext context: Context): ExpenseTrackerDB {
+    fun provideInMemoryDB(
+        @ApplicationContext context: Context,
+    ): ExpenseTrackerDB {
         return Room.inMemoryDatabaseBuilder(context, ExpenseTrackerDB::class.java)
             .allowMainThreadQueries().build()
     }
@@ -34,14 +35,16 @@ object TestAppModule {
     @Provides
     @Singleton
     @Named("fake_expense_tracker_repository")
-    fun provideFakeRepository() : ExpenseRepository {
+    fun provideFakeRepository(): ExpenseRepository {
         return FakeExpenseRepository()
     }
 
     @Singleton
     @Provides
     @Named("test_use_case")
-    fun provideTestUseCase(@Named("fake_expense_tracker_repository") repository: ExpenseRepository) : UseCase {
+    fun provideTestUseCase(
+        @Named("fake_expense_tracker_repository") repository: ExpenseRepository,
+    ): UseCase {
         Log.i("TestModule", "provideTestUseCase: REPO : $repository")
         return UseCase(
             getExpenses = GetExpenses(repository),

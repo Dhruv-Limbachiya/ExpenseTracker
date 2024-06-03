@@ -34,11 +34,10 @@ import javax.inject.Named
 
 @HiltAndroidTest
 class ExpenseListScreenTest {
-
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
-    @get: Rule
+    @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
@@ -65,7 +64,7 @@ class ExpenseListScreenTest {
             ExpenseListScreen(
                 viewModel = viewModel,
                 navigateToAddUpdateExpenseScreen = {},
-                onBackPress = {}
+                onBackPress = {},
             )
         }
     }
@@ -81,7 +80,6 @@ class ExpenseListScreenTest {
         composeTestRule.onNodeWithContentDescription("ExpenseListScreen").isDisplayed()
     }
 
-
     @Test
     fun test_whenExpenseListEmpty_shouldDisplayNoExpensesFound() {
         composeTestRule.onNodeWithText("No Expense Found!", useUnmergedTree = true).assertExists()
@@ -92,13 +90,13 @@ class ExpenseListScreenTest {
         addFewExpenses()
 
         composeTestRule.onNode(
-            hasParent(hasContentDescription("ExpenseListScreen")) and hasTestTag(
-                "expense_list"
-            )
+            hasParent(hasContentDescription("ExpenseListScreen")) and
+                hasTestTag(
+                    "expense_list",
+                ),
         ).assertExists()
 
         composeTestRule.onAllNodes(hasTestTag("expenseItem")).assertCountEquals(3)
-
     }
 
     @Test
@@ -142,32 +140,35 @@ class ExpenseListScreenTest {
     private fun addFewExpenses() {
         runBlocking {
             // arrange
-            val pizza = Expense(
-                id = 1,
-                title = "Pizza",
-                description = "7 cheesy pizza",
-                amount = 235.60,
-                categoryId = Category.FOOD_CATEGORY.categoryId,
-                date = "2024-03-01",
-            )
+            val pizza =
+                Expense(
+                    id = 1,
+                    title = "Pizza",
+                    description = "7 cheesy pizza",
+                    amount = 235.60,
+                    categoryId = Category.FOOD_CATEGORY.categoryId,
+                    date = "2024-03-01",
+                )
 
-            val burger = Expense(
-                id = 2,
-                title = "Burger",
-                description = "Double Patty Veg Burger",
-                amount = 199.0,
-                categoryId = Category.FOOD_CATEGORY.categoryId,
-                date = "2024-03-10",
-            )
+            val burger =
+                Expense(
+                    id = 2,
+                    title = "Burger",
+                    description = "Double Patty Veg Burger",
+                    amount = 199.0,
+                    categoryId = Category.FOOD_CATEGORY.categoryId,
+                    date = "2024-03-10",
+                )
 
-            val dhosa = Expense(
-                id = 3,
-                title = "dhosa",
-                description = "Mysore Masala Dhosa",
-                amount = 275.0,
-                categoryId = Category.FOOD_CATEGORY.categoryId,
-                date = "2024-03-01",
-            )
+            val dhosa =
+                Expense(
+                    id = 3,
+                    title = "dhosa",
+                    description = "Mysore Masala Dhosa",
+                    amount = 275.0,
+                    categoryId = Category.FOOD_CATEGORY.categoryId,
+                    date = "2024-03-01",
+                )
 
             fakeRepository.insertExpense(pizza)
             fakeRepository.insertExpense(burger)

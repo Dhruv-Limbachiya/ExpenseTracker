@@ -1,0 +1,90 @@
+# This workflow is named "CI" and runs whenever there's a push event to the repository.
+name: ci
+
+# This workflow is triggered on the "push" event. This means it will run whenever there's a push to any branch in the repository.
+on:
+  pull_request:
+
+# This defines a job named "build" that will be executed within the workflow.
+jobs:
+  build:
+    # This specifies that the job will run on an Ubuntu virtual machine provided by GitHub Actions.
+    runs-on: macos-13
+    strategy:
+      matrix:
+        api-level: [ 30, 33 ]
+        target: [ google_apis ]
+        arch: [ x86_64 ]
+
+    # This defines the steps that will be executed within the "build" job.
+    steps:
+      # This step uses the "actions/checkout@v4" action to clone the repository code into the runner's workspace.
+      - name: Checkout the repository code
+        uses: actions/checkout@v4
+
+      # This step prints a message to the workflow log indicating that the code has been cloned.
+      - run: echo " The ${{ github.repository }} repository has been cloned to the runner."
+
+
+      # This step uses the "actions/setup-java@v3" action to set up JDK 11 for building the project.
+      - name: set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          # This specifies the desired JDK version to be 17.
+          java-version: '17'
+          # This specifies the Java distribution to use (temurin by Red Hat).
+          distribution: 'temurin'
+          # This instructs the action to cache downloaded Gradle files for efficiency.
+          cache: gradle
+
+        # This line uses the `actions/cache@v2` GitHub Action.
+      - uses: actions/cache@v2
+
+        # This section defines the configuration for the caching action:
+        with:
+          # This defines the paths to be cached. Here, we're caching two directories:
+          #  - ./gradle/: This likely stores downloaded Gradle files (libraries, plugins).
+          #  - ~/gradle/wrapper: This might contain the Gradle wrapper used for building the project.
+          path: |
+            ./gradle/
+            ~/gradle/wrapper
+
+          # This defines a unique cache key based on:
+          #  - ${{runner.os}}: The operating system the workflow is running on (e.g., ubuntu-latest).
+          #  - build-: A static string indicating the build stage being cached.
+          #  - ${{github.sha}}: The SHA of the commit that triggered the workflow.
+          # This combination ensures the cache is specific to the build environment and code version.
+          key: ${{ runner.os }}-build-${{ github.sha }}
+
+          # This defines restore keys for retrieving cached data from previous builds. Here, we use a wildcard:
+          #  - ${{ runner.os }}-build : This matches any cache key that starts with "build-" and the runner's OS.
+          # This allows restoring the cache from previous builds with the same operating system,
+          # as long as the project hasn't changed significantly (assuming the cache key format remains consistent).
+          restore-keys: |
+            ${{ runner.os }}-build
+            
+
+        # This step grants execute permission to the gradlew script for running the build process.
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Ktlint
+        run: ./gradlew ktlintCheck
+
+      - name: KtLint Format
+        run: ./gradlew ktlintFormat
+
+      # steps to run androidTest on the emulator
+      - name: Run integration tests on emulator (Android ${{ matrix.api-level }})
+        uses: reactivecircus/android-emulator-runner@v2 # GitHub Action used to run the emulator
+        with:
+          api-level: ${{ matrix.api-level }}  # API level for the emulator based on the job matrix
+          target: ${{ matrix.target }}        # build target for the emulator (e.g., google_apis)
+          arch: ${{ matrix.arch }}            # architecture for the emulator (e.g., x86_64)
+
+          script: ./gradlew connectedAndroidTest  # This line defines the script to run within the emulator (likely executes integration tests)
+
+       # This step executes the Gradle build process using the ./gradlew build command.
+      - name: Build with Gradle
+        run: ./gradlew build
+

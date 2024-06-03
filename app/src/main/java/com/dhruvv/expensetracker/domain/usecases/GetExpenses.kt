@@ -5,10 +5,9 @@ import com.dhruvv.expensetracker.data.repositories.ExpenseRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetExpenses constructor(
-    private var expenseRepository: ExpenseRepository
+    private var expenseRepository: ExpenseRepository,
 ) {
-
     suspend operator fun invoke(): Flow<List<Expense>> {
-      return expenseRepository.getAllExpenses()
+        return expenseRepository.getAllExpenses()
     }
 }

@@ -5,9 +5,7 @@ import com.dhruvv.expensetracker.data.db.room.ExpenseTrackerDB
 import com.dhruvv.expensetracker.data.repositories.ExpenseRepository
 import kotlinx.coroutines.flow.Flow
 
-
 class IExpenseRepository(private val expenseTrackerDB: ExpenseTrackerDB) : ExpenseRepository {
-
     override suspend fun insertExpense(expense: Expense): Boolean {
         val rowId = expenseTrackerDB.getExpenseDao().insertExpense(expense)
         return rowId != 0L

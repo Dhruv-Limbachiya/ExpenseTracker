@@ -21,15 +21,13 @@ import org.junit.Test
 import javax.inject.Inject
 import javax.inject.Named
 
-
 @HiltAndroidTest
 @SmallTest
 class ExpenseTrackerDaoTest {
-
     @get:Rule
     var hiltRule = HiltAndroidRule(this) // used to inject dependencies
 
-    //swaps the background executor used by the Architecture Components with a different one that executes each task synchronously.
+    // swaps the background executor used by the Architecture Components with a different one that executes each task synchronously.
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -38,6 +36,7 @@ class ExpenseTrackerDaoTest {
     lateinit var expenseTrackerDB: ExpenseTrackerDB
 
     lateinit var expenseDao: ExpenseDao
+
     @Before
     fun setUp() {
         hiltRule.inject()
@@ -49,19 +48,20 @@ class ExpenseTrackerDaoTest {
     fun testInsertExpense_whenFetch_shouldReturnCorrectExpenseRecord() {
         runBlocking {
             // arrange
-            val expense = Expense(
-                title = "Pizza",
-                description = "7 cheesy pizza",
-                amount = 235.60,
-                categoryId = Category.FOOD_CATEGORY.categoryId,
-                date = "2022-01-01",
-            )
+            val expense =
+                Expense(
+                    title = "Pizza",
+                    description = "7 cheesy pizza",
+                    amount = 235.60,
+                    categoryId = Category.FOOD_CATEGORY.categoryId,
+                    date = "2022-01-01",
+                )
             // act
             val rowId = expenseDao.insertExpense(expense)
 
             val insertedExpense = expenseDao.getAllExpenses().first()[0]
             // assert
-            assertThat(rowId).isNotEqualTo(0) //inserted properly
+            assertThat(rowId).isNotEqualTo(0) // inserted properly
             assertThat(insertedExpense.title).isEqualTo("Pizza")
         }
     }
@@ -70,29 +70,32 @@ class ExpenseTrackerDaoTest {
     fun testExpenses_whenFetched_shouldReturnAllExpenses() {
         runBlocking {
             // arrange
-            val pizza = Expense(
-                title = "Pizza",
-                description = "7 cheesy pizza",
-                amount = 235.60,
-                categoryId = Category.FOOD_CATEGORY.categoryId,
-                date = "2022-01-01",
-            )
+            val pizza =
+                Expense(
+                    title = "Pizza",
+                    description = "7 cheesy pizza",
+                    amount = 235.60,
+                    categoryId = Category.FOOD_CATEGORY.categoryId,
+                    date = "2022-01-01",
+                )
 
-            val burger = Expense(
-                title = "Burger",
-                description = "Veg Double Patty Burger",
-                amount = 199.0,
-                categoryId = Category.FOOD_CATEGORY.categoryId,
-                date = "2022-01-02",
-            )
+            val burger =
+                Expense(
+                    title = "Burger",
+                    description = "Veg Double Patty Burger",
+                    amount = 199.0,
+                    categoryId = Category.FOOD_CATEGORY.categoryId,
+                    date = "2022-01-02",
+                )
 
-            val shirt = Expense(
-                title = "Shirt",
-                description = "Cotton Shirt XL",
-                amount = 799.0,
-                categoryId = Category.CLOTHING_CATEGORY.categoryId,
-                date = "2022-01-02",
-            )
+            val shirt =
+                Expense(
+                    title = "Shirt",
+                    description = "Cotton Shirt XL",
+                    amount = 799.0,
+                    categoryId = Category.CLOTHING_CATEGORY.categoryId,
+                    date = "2022-01-02",
+                )
 
             expenseDao.insertExpense(pizza)
 
@@ -129,92 +132,96 @@ class ExpenseTrackerDaoTest {
 
     @Test
     fun testCurrentMonthExpenses_shouldReturnCorrectAmount() {
-       runBlocking {
-           // arrange
-           val pizza = Expense(
-               title = "Pizza",
-               description = "7 cheesy pizza",
-               amount = 235.60,
-               categoryId = Category.FOOD_CATEGORY.categoryId,
-               date = "2024-01-01",
-           )
-
-           val burger = Expense(
-               title = "Burger",
-               description = "Veg Double Patty Burger",
-               amount = 199.0,
-               categoryId = Category.FOOD_CATEGORY.categoryId,
-               date = "2024-01-01",
-           )
-
-           val shirt = Expense(
-               title = "Shirt",
-               description = "Cotton Shirt XL",
-               amount = 799.0,
-               categoryId = Category.CLOTHING_CATEGORY.categoryId,
-               date = "2024-02-02",
-           )
-
-           expenseDao.insertExpense(pizza)
-           expenseDao.insertExpense(burger)
-           expenseDao.insertExpense(shirt)
-
-            expenseDao.getAllExpenses().test {
-                val expense =  this.awaitItem()
-               assertThat(expense.size).isEqualTo(3)
-           }
-
-
-           // act
-           val totalExpense = expenseDao.getExpensesOfCurrentMonth().first()
-
-           //assert
-           assertThat(totalExpense).isEqualTo(434.6)
-       }
-    }
-
-    @Test
-    fun testMarchMonthExpenses_shouldReturnCorrectAmount() {
         runBlocking {
             // arrange
-            val pizza = Expense(
-                title = "Pizza",
-                description = "7 cheesy pizza",
-                amount = 235.60,
-                categoryId = Category.FOOD_CATEGORY.categoryId,
-                date = "2024-03-01",
-            )
+            val pizza =
+                Expense(
+                    title = "Pizza",
+                    description = "7 cheesy pizza",
+                    amount = 235.60,
+                    categoryId = Category.FOOD_CATEGORY.categoryId,
+                    date = "2024-05-01",
+                )
 
-            val burger = Expense(
-                title = "Burger",
-                description = "Veg Double Patty Burger",
-                amount = 199.0,
-                categoryId = Category.FOOD_CATEGORY.categoryId,
-                date = "2024-03-02",
-            )
+            val burger =
+                Expense(
+                    title = "Burger",
+                    description = "Veg Double Patty Burger",
+                    amount = 199.0,
+                    categoryId = Category.FOOD_CATEGORY.categoryId,
+                    date = "2024-05-01",
+                )
 
-            val shirt = Expense(
-                title = "Shirt",
-                description = "Cotton Shirt XL",
-                amount = 799.0,
-                categoryId = Category.CLOTHING_CATEGORY.categoryId,
-                date = "2024-03-04",
-            )
+            val shirt =
+                Expense(
+                    title = "Shirt",
+                    description = "Cotton Shirt XL",
+                    amount = 799.0,
+                    categoryId = Category.CLOTHING_CATEGORY.categoryId,
+                    date = "2024-02-02",
+                )
 
             expenseDao.insertExpense(pizza)
             expenseDao.insertExpense(burger)
             expenseDao.insertExpense(shirt)
 
             expenseDao.getAllExpenses().test {
-                val expense =  this.awaitItem()
+                val expense = this.awaitItem()
                 assertThat(expense.size).isEqualTo(3)
             }
 
+            // act
+            val totalExpense = expenseDao.getExpensesOfCurrentMonth().first()
+
+            // assert
+            assertThat(totalExpense).isEqualTo(434.6)
+        }
+    }
+
+    @Test
+    fun testMarchMonthExpenses_shouldReturnCorrectAmount() {
+        runBlocking {
+            // arrange
+            val pizza =
+                Expense(
+                    title = "Pizza",
+                    description = "7 cheesy pizza",
+                    amount = 235.60,
+                    categoryId = Category.FOOD_CATEGORY.categoryId,
+                    date = "2024-03-01",
+                )
+
+            val burger =
+                Expense(
+                    title = "Burger",
+                    description = "Veg Double Patty Burger",
+                    amount = 199.0,
+                    categoryId = Category.FOOD_CATEGORY.categoryId,
+                    date = "2024-03-02",
+                )
+
+            val shirt =
+                Expense(
+                    title = "Shirt",
+                    description = "Cotton Shirt XL",
+                    amount = 799.0,
+                    categoryId = Category.CLOTHING_CATEGORY.categoryId,
+                    date = "2024-03-04",
+                )
+
+            expenseDao.insertExpense(pizza)
+            expenseDao.insertExpense(burger)
+            expenseDao.insertExpense(shirt)
+
+            expenseDao.getAllExpenses().test {
+                val expense = this.awaitItem()
+                assertThat(expense.size).isEqualTo(3)
+            }
 
             // act
             val totalExpense = expenseDao.getExpensesByMonth("03").first()
 
-            //assert
+            // assert
             assertThat(totalExpense).isEqualTo(1233.6)
         }
     }
@@ -225,7 +232,7 @@ class ExpenseTrackerDaoTest {
             // act
             val totalExpense = expenseDao.getExpensesOfCurrentMonth().first()
 
-            //assert
+            // assert
             assertThat(totalExpense).isNull()
         }
     }
@@ -234,7 +241,7 @@ class ExpenseTrackerDaoTest {
     fun tearDown() {
         expenseTrackerDB.close()
     }
-    
+
     companion object {
         private const val TAG = "ExpenseTrackerDaoTest"
     }

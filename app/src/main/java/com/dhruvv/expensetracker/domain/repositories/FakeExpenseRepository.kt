@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class FakeExpenseRepository : ExpenseRepository {
-
     private val _expenses = MutableStateFlow<List<Expense>>(emptyList())
     val expenses: StateFlow<List<Expense>> = _expenses
 
@@ -52,17 +51,17 @@ class FakeExpenseRepository : ExpenseRepository {
         return _currentMonthExpense
     }
 
-
     private fun calculateCurrentMonthExpenses(): Double {
-        val currentMonth = expenses.value.filter {
-            it.date!!.startsWith("2024-02")
-        }
+        val currentMonth =
+            expenses.value.filter {
+                it.date!!.startsWith("2024-04")
+            }
 
-        val currentMonthExpense = currentMonth.sumOf {
-            it.amount
-        }
+        val currentMonthExpense =
+            currentMonth.sumOf {
+                it.amount
+            }
 
         return currentMonthExpense
     }
-
 }

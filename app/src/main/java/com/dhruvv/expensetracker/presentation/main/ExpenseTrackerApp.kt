@@ -10,12 +10,10 @@ import androidx.compose.ui.Modifier
 import com.dhruvv.expensetracker.navigation.AppNavHost
 
 @Composable
-fun ExpenseTrackerApp(
-    modifier: Modifier = Modifier
-) {
+fun ExpenseTrackerApp(modifier: Modifier = Modifier) {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+        color = MaterialTheme.colorScheme.background,
     ) {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             AppNavHost(modifier.padding(innerPadding))

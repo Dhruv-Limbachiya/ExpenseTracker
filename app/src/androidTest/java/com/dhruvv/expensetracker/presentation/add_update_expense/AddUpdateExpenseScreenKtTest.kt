@@ -18,7 +18,6 @@ import org.junit.Test
 
 @HiltAndroidTest
 class AddUpdateExpenseScreenKtTest {
-
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
@@ -26,12 +25,11 @@ class AddUpdateExpenseScreenKtTest {
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @Before
-    fun setup(){
+    fun setup() {
         hiltRule.inject()
 
         composeTestRule.activity.setContent {
             AddUpdateExpenseScreen {
-
             }
         }
     }
