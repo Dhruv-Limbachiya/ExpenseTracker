@@ -6,13 +6,11 @@
 
 <h2>Project Screenshots:</h2>
 
-<img src="https://ibb.co/wYGtTQt" alt="project-screenshot" width="400" height="400/">
+<img src="https://github.com/Dhruv-Limbachiya/ExpenseTracker/assets/86999890/62181fdf-ab83-43e3-893b-4f9804da32ad" width="200" height="500">
 
-<img src="https://ibb.co/djQ9VWZ" alt="project-screenshot" width="400" height="400/">
+<img src="https://github.com/Dhruv-Limbachiya/ExpenseTracker/assets/86999890/7f277ba8-918c-4946-8b67-ede855de04be" width="200" height="500">
 
-<img src="https://ibb.co/0qXTL9f" alt="project-screenshot" width="400" height="400/">
-
-  
+<img src="https://github.com/Dhruv-Limbachiya/ExpenseTracker/assets/86999890/6a75dc9b-e8d9-4e01-a913-dbd3737c8700" width="200" height="500">
   
 <h2>🧐 Features</h2>
 
