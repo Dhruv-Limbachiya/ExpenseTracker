@@ -7,6 +7,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,7 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -77,7 +79,6 @@ import com.dhruvv.expensetracker.R
 import com.dhruvv.expensetracker.data.db.entities.Category
 import com.dhruvv.expensetracker.presentation.add_update_expense.data.ExpenseData.Companion.getCategory
 import com.dhruvv.expensetracker.presentation.common.ExpenseTrackerAppBar
-import com.dhruvv.expensetracker.presentation.ui.theme.lightGray
 import com.dhruvv.expensetracker.presentation.ui.theme.openSansBoldFontFamily
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -374,7 +375,7 @@ fun ExpenseCategory(
                 Modifier
                     .size(46.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(lightGray)
+                    .background(MaterialTheme.colorScheme.primaryContainer)
                     .clickable {
                         expanded = expanded.not()
                     },
@@ -383,6 +384,7 @@ fun ExpenseCategory(
             Icon(
                 imageVector = if (expanded) Icons.Rounded.KeyboardArrowUp else Icons.Rounded.KeyboardArrowDown,
                 contentDescription = "Drop Down",
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         }
     }
@@ -419,7 +421,7 @@ fun ExpenseDescriptionField(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
             value = description,
-            textStyle = TextStyle(fontFamily = openSansBoldFontFamily),
+            textStyle = TextStyle(fontFamily = openSansBoldFontFamily, color = if (isSystemInDarkTheme()) Color.White else Color.Black),
             onValueChange = { onDescriptionChange(it) },
             maxLines = 5,
             keyboardOptions =
