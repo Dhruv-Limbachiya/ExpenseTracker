@@ -20,6 +20,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,7 +45,6 @@ import com.dhruvv.expensetracker.data.db.entities.Expense
 import com.dhruvv.expensetracker.presentation.common.ExpenseTrackerAppBar
 import com.dhruvv.expensetracker.presentation.expense_list.ExpenseList
 import com.dhruvv.expensetracker.presentation.expense_list.NoExpenseFound
-import com.dhruvv.expensetracker.presentation.ui.theme.lightGray
 import com.dhruvv.expensetracker.presentation.ui.theme.openSansBoldFontFamily
 
 @Composable
@@ -164,12 +164,13 @@ fun Expenses(
         Text(
             text = "All Expenses",
             fontFamily = openSansBoldFontFamily,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
         Box(
             modifier =
                 Modifier
                     .shadow(shape = RoundedCornerShape(20.dp), elevation = 1.dp)
-                    .background(lightGray),
+                    .background(MaterialTheme.colorScheme.primaryContainer),
         ) {
             Text(
                 modifier =
@@ -180,7 +181,7 @@ fun Expenses(
                         },
                 text = stringResource(R.string.text_view_all),
                 fontFamily = openSansBoldFontFamily,
-                color = Color.Gray,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 fontSize = 12.sp,
             )
         }
