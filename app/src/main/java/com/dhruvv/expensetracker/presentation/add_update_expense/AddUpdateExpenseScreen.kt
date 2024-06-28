@@ -173,8 +173,8 @@ suspend fun isValidDetails(
     if (viewModel.addExpenseState.value.expenseData.amount.isEmpty()) {
         snackBarHostState.showSnackbar("Amount can't be empty")
         return@async false
-    } else if (viewModel.addExpenseState.value.expenseData.amount.toInt() < 0) {
-        snackBarHostState.showSnackbar("Negative values are not allowed!")
+    } else if (viewModel.addExpenseState.value.expenseData.amount.toDouble() <= 0.0) {
+        snackBarHostState.showSnackbar("Negative and zero values are not allowed!")
         return@async false
     } else if (viewModel.addExpenseState.value.expenseData.description.isNullOrEmpty()) {
         snackBarHostState.showSnackbar("Description can't be empty")

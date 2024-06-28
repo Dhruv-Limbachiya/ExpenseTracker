@@ -152,14 +152,6 @@ fun ExpenseItem(
             },
         )
     }
-
-//
-//    LaunchedEffect(key1 = isSwiped, key2 = show) {
-//        Log.i("Expense", "ExpenseItem: is swiped $isSwiped")
-//        if(isSwiped) {
-//            onExpenseItemSwiped(expenseData)
-//        }
-//    }
 }
 
 @Composable
