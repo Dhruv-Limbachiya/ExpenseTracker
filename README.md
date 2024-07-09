@@ -1,3 +1,5 @@
+# Notes-App
+
 Expense Tracker is a minimalistic and efficient app designed to help you manage your finances effortlessly.The app features a Dashboard Screen 📊 that displays your total expenses and a brief list of recent spends providing you with a quick overview of your financial status. The Expense Form 📝 allows you to easily record your expenses by category and amount ensuring organized and accurate tracking. Additionally the Expense List Screen 📅 presents all your spends in chronological order making it simple to review and manage your expenses over time.
 
 <h2>Project Screenshots:</h2>
