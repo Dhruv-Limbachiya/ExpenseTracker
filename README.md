@@ -1,8 +1,4 @@
-<h1 align="center" id="title">Expense Tracker</h1>
-
-<p align="center"><img src="https://socialify.git.ci/Dhruv-Limbachiya/ExpenseTracker/image?description=1&amp;descriptionEditable=%F0%9F%92%B0%20Track%20Smart%2C%20Spend%20Wise%20with%20Expense%20Tracker!%20%F0%9F%93%8A&amp;language=1&amp;name=1&amp;owner=1&amp;pattern=Plus&amp;stargazers=1&amp;theme=Auto" alt="project-image"></p>
-
-<p id="description">Expense Tracker is a minimalistic and efficient app designed to help you manage your finances effortlessly.The app features a Dashboard Screen 📊 that displays your total expenses and a brief list of recent spends providing you with a quick overview of your financial status. The Expense Form 📝 allows you to easily record your expenses by category and amount ensuring organized and accurate tracking. Additionally the Expense List Screen 📅 presents all your spends in chronological order making it simple to review and manage your expenses over time.</p>
+Expense Tracker is a minimalistic and efficient app designed to help you manage your finances effortlessly.The app features a Dashboard Screen 📊 that displays your total expenses and a brief list of recent spends providing you with a quick overview of your financial status. The Expense Form 📝 allows you to easily record your expenses by category and amount ensuring organized and accurate tracking. Additionally the Expense List Screen 📅 presents all your spends in chronological order making it simple to review and manage your expenses over time.
 
 <h2>Project Screenshots:</h2>
 
